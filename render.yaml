@@ -1,0 +1,37 @@
+services:
+  # Backend API
+  - type: web
+    name: pilates-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: UPLOAD_DIR
+        value: ./uploads/comprobantes
+      - key: UPLOAD_DIR_CONTENIDO
+        value: ./uploads/contenido
+      - key: MAX_FILE_SIZE
+        value: 5242880
+      # Estas variables debes configurarlas manualmente en el panel de Render:
+      # DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT
+
+  # Frontend
+  - type: web
+    name: pilates-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://pilates-backend.onrender.com/api
+        # Actualiza esta URL con la URL real de tu backend después del despliegue
+
