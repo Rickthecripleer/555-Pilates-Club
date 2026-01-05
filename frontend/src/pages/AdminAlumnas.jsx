@@ -1204,7 +1204,7 @@ export default function AdminAlumnas() {
                   </button>
                   <button
                     onClick={cerrarModalDetalle}
-                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm bg-gray-100 text-gray-700 rounded-lg sm:rounded-xl hover:bg-gray-200 transition-colors"
                   >
                     Cerrar
                   </button>
