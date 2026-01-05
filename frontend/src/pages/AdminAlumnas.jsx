@@ -521,31 +521,31 @@ export default function AdminAlumnas() {
 
       {/* Modal para Registrar Pago en Efectivo */}
       {mostrarModalPago && alumnaSeleccionada && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
             {/* Header del Modal */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                  <DollarSign className="text-pink-600" size={24} />
-                  Registrar Pago en Efectivo
+            <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-200">
+              <div className="flex-1 min-w-0 pr-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                  <DollarSign className="text-pink-600 flex-shrink-0" size={20} className="sm:w-6 sm:h-6" />
+                  <span className="truncate">Registrar Pago</span>
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 truncate">
                   Alumna: <span className="font-medium">{alumnaSeleccionada.nombre}</span>
                 </p>
               </div>
               <button
                 onClick={cerrarModalPago}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 p-1"
               >
-                <X size={24} />
+                <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
             {/* Mensajes */}
             {mensaje.texto && (
               <div
-                className={`mx-6 mt-4 p-4 rounded-lg ${
+                className={`mx-3 sm:mx-4 md:mx-6 mt-3 sm:mt-4 p-3 sm:p-4 rounded-lg ${
                   mensaje.tipo === 'success'
                     ? 'bg-green-50 border border-green-200 text-green-800'
                     : 'bg-red-50 border border-red-200 text-red-800'
@@ -553,20 +553,20 @@ export default function AdminAlumnas() {
               >
                 <div className="flex items-center gap-2">
                   {mensaje.tipo === 'success' ? (
-                    <CheckCircle size={20} />
+                    <CheckCircle size={18} className="sm:w-5 sm:h-5 flex-shrink-0" />
                   ) : (
-                    <X size={20} />
+                    <X size={18} className="sm:w-5 sm:h-5 flex-shrink-0" />
                   )}
-                  <p>{mensaje.texto}</p>
+                  <p className="text-sm sm:text-base">{mensaje.texto}</p>
                 </div>
               </div>
             )}
 
             {/* Formulario */}
-            <form onSubmit={handleRegistrarPago} className="p-6 space-y-6">
+            <form onSubmit={handleRegistrarPago} className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6">
               {/* Tipo de Plan */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                   Tipo de Plan
                 </label>
                 <select
@@ -586,7 +586,7 @@ export default function AdminAlumnas() {
 
               {/* Monto Base (solo editable para planes no mensuales) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                   Monto Base del Plan (MXN)
                 </label>
                 <input
@@ -602,8 +602,8 @@ export default function AdminAlumnas() {
 
               {/* Desglose y Total para Mensualidad */}
               {formPago.tipo_plan === 'mensual' && (
-                <div className="bg-pink-50 border-2 border-pink-200 rounded-lg p-4 space-y-3">
-                  <h4 className="font-semibold text-pink-900 text-sm mb-2">Desglose del Pago:</h4>
+                <div className="bg-pink-50 border-2 border-pink-200 rounded-lg p-3 sm:p-4 space-y-2 sm:space-y-3">
+                  <h4 className="font-semibold text-pink-900 text-xs sm:text-sm mb-1.5 sm:mb-2">Desglose del Pago:</h4>
                   
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between items-center">
@@ -644,7 +644,7 @@ export default function AdminAlumnas() {
 
               {/* Fecha de Pago */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                   Fecha de Pago
                 </label>
                 <input
@@ -658,25 +658,25 @@ export default function AdminAlumnas() {
 
               {/* Descripción (Opcional) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                   Descripción (Opcional)
                 </label>
                 <textarea
                   value={formPago.descripcion}
                   onChange={(e) => setFormPago({ ...formPago, descripcion: e.target.value })}
                   placeholder="Ej: Pago en efectivo recibido en caja"
-                  rows="3"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  rows="2"
+                  className="w-full px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 />
               </div>
 
               {/* Botones */}
               {!pagoRegistrado ? (
-                <div className="flex gap-3 pt-4 border-t border-gray-200">
+                <div className="flex gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200">
                   <button
                     type="button"
                     onClick={cerrarModalPago}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                     disabled={guardando}
                   >
                     Cancelar
@@ -684,17 +684,18 @@ export default function AdminAlumnas() {
                   <button
                     type="submit"
                     disabled={guardando}
-                    className="flex-1 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2"
                   >
                     {guardando ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        Guardando...
+                        <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white"></div>
+                        <span className="hidden sm:inline">Guardando...</span>
+                        <span className="sm:hidden">...</span>
                       </>
                     ) : (
                       <>
-                        <CheckCircle size={18} />
-                        Registrar Pago
+                        <CheckCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
+                        <span>Registrar</span>
                       </>
                     )}
                   </button>
@@ -742,31 +743,31 @@ export default function AdminAlumnas() {
 
       {/* Modal para Registro Rápido de Alumna */}
       {mostrarModalRegistroRapido && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
             {/* Header del Modal */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                  <Users className="text-pink-600" size={24} />
-                  Registro Rápido de Alumna
+            <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-200">
+              <div className="flex-1 min-w-0 pr-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                  <Users className="text-pink-600 flex-shrink-0" size={20} className="sm:w-6 sm:h-6" />
+                  <span className="truncate">Registro Rápido</span>
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  Para alumnas que no manejan tecnología (excepción)
+                <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
+                  Para alumnas que no manejan tecnología
                 </p>
               </div>
               <button
                 onClick={cerrarModalRegistroRapido}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 p-1"
               >
-                <X size={24} />
+                <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
             {/* Mensajes */}
             {mensaje.texto && (
               <div
-                className={`mx-6 mt-4 p-4 rounded-lg ${
+                className={`mx-3 sm:mx-4 md:mx-6 mt-3 sm:mt-4 p-3 sm:p-4 rounded-lg ${
                   mensaje.tipo === 'success'
                     ? 'bg-green-50 border border-green-200 text-green-800'
                     : 'bg-red-50 border border-red-200 text-red-800'
@@ -774,32 +775,32 @@ export default function AdminAlumnas() {
               >
                 <div className="flex items-center gap-2">
                   {mensaje.tipo === 'success' ? (
-                    <CheckCircle size={20} />
+                    <CheckCircle size={18} className="sm:w-5 sm:h-5 flex-shrink-0" />
                   ) : (
-                    <X size={20} />
+                    <X size={18} className="sm:w-5 sm:h-5 flex-shrink-0" />
                   )}
-                  <p>{mensaje.texto}</p>
+                  <p className="text-sm sm:text-base">{mensaje.texto}</p>
                 </div>
               </div>
             )}
 
             {/* Credenciales Generadas */}
             {credencialesGeneradas && (
-              <div className="mx-6 mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm font-medium text-blue-900 mb-2">Credenciales generadas:</p>
-                <div className="space-y-1 text-sm text-blue-800">
+              <div className="mx-3 sm:mx-4 md:mx-6 mt-3 sm:mt-4 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-xs sm:text-sm font-medium text-blue-900 mb-1.5 sm:mb-2">Credenciales generadas:</p>
+                <div className="space-y-1 text-xs sm:text-sm text-blue-800 break-all">
                   <p><strong>Email:</strong> {credencialesGeneradas.email}</p>
                   <p><strong>Password:</strong> {credencialesGeneradas.password}</p>
                 </div>
-                <p className="text-xs text-blue-600 mt-2">Guarda estas credenciales. La alumna puede iniciar sesión con ellas.</p>
+                <p className="text-xs text-blue-600 mt-1.5 sm:mt-2">Guarda estas credenciales. La alumna puede iniciar sesión con ellas.</p>
               </div>
             )}
 
             {/* Formulario */}
-            <form onSubmit={handleRegistroRapido} className="p-6 space-y-6">
+            <form onSubmit={handleRegistroRapido} className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6">
               {/* Nombre (Requerido) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                   Nombre Completo <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -814,7 +815,7 @@ export default function AdminAlumnas() {
 
               {/* Teléfono (Opcional) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                   Teléfono (Opcional)
                 </label>
                 <input
@@ -827,15 +828,15 @@ export default function AdminAlumnas() {
               </div>
 
               {/* Checkbox para registrar pago */}
-              <div className="flex items-center gap-2 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-2 p-3 sm:p-4 bg-gray-50 rounded-lg">
                 <input
                   type="checkbox"
                   id="registrarPago"
                   checked={formRegistroRapido.registrarPago}
                   onChange={(e) => setFormRegistroRapido({ ...formRegistroRapido, registrarPago: e.target.checked })}
-                  className="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+                  className="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500 flex-shrink-0"
                 />
-                <label htmlFor="registrarPago" className="text-sm font-medium text-gray-700">
+                <label htmlFor="registrarPago" className="text-xs sm:text-sm font-medium text-gray-700">
                   Registrar pago en efectivo ahora
                 </label>
               </div>
@@ -845,7 +846,7 @@ export default function AdminAlumnas() {
                 <>
                   {/* Tipo de Plan */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                       Tipo de Plan
                     </label>
                     <select
@@ -865,7 +866,7 @@ export default function AdminAlumnas() {
 
                   {/* Monto Base */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                       Monto Base del Plan (MXN)
                     </label>
                     <input
@@ -881,8 +882,8 @@ export default function AdminAlumnas() {
 
                   {/* Desglose y Total para Mensualidad en Registro Rápido */}
                   {formRegistroRapido.tipo_plan === 'mensual' && (
-                    <div className="bg-pink-50 border-2 border-pink-200 rounded-lg p-4 space-y-3">
-                      <h4 className="font-semibold text-pink-900 text-sm mb-2">Desglose del Pago:</h4>
+                    <div className="bg-pink-50 border-2 border-pink-200 rounded-lg p-3 sm:p-4 space-y-2 sm:space-y-3">
+                      <h4 className="font-semibold text-pink-900 text-xs sm:text-sm mb-1.5 sm:mb-2">Desglose del Pago:</h4>
                       
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between items-center">
@@ -910,7 +911,7 @@ export default function AdminAlumnas() {
 
                   {/* Fecha de Pago */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                       Fecha de Pago
                     </label>
                     <input
@@ -924,7 +925,7 @@ export default function AdminAlumnas() {
 
                   {/* Descripción */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                       Descripción (Opcional)
                     </label>
                     <textarea
@@ -932,18 +933,18 @@ export default function AdminAlumnas() {
                       onChange={(e) => setFormRegistroRapido({ ...formRegistroRapido, descripcion: e.target.value })}
                       placeholder="Ej: Pago en efectivo recibido en caja"
                       rows="2"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     />
                   </div>
                 </>
               )}
 
               {/* Botones */}
-              <div className="flex gap-3 pt-4 border-t border-gray-200">
+              <div className="flex gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={cerrarModalRegistroRapido}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                   disabled={registrando}
                 >
                   Cancelar
@@ -951,17 +952,18 @@ export default function AdminAlumnas() {
                 <button
                   type="submit"
                   disabled={registrando}
-                  className="flex-1 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2"
                 >
                   {registrando ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      Registrando...
+                      <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white"></div>
+                      <span className="hidden sm:inline">Registrando...</span>
+                      <span className="sm:hidden">...</span>
                     </>
                   ) : (
                     <>
-                      <CheckCircle size={18} />
-                      Registrar Alumna
+                      <CheckCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
+                      <span>Registrar</span>
                     </>
                   )}
                 </button>
@@ -973,53 +975,53 @@ export default function AdminAlumnas() {
 
       {/* Modal para Ver Detalle de Alumna */}
       {mostrarModalDetalle && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
             {/* Header del Modal */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                  <Eye className="text-blue-600" size={24} />
-                  Información Detallada de Alumna
+            <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-200">
+              <div className="flex-1 min-w-0 pr-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                  <Eye className="text-blue-600 flex-shrink-0" size={20} className="sm:w-6 sm:h-6" />
+                  <span className="truncate">Detalle de Alumna</span>
                 </h2>
                 {detalleAlumna && (
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1 truncate">
                     {detalleAlumna.nombre}
                   </p>
                 )}
               </div>
               <button
                 onClick={cerrarModalDetalle}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 p-1"
               >
-                <X size={24} />
+                <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
             {/* Mensajes */}
             {mensaje.texto && mensaje.tipo === 'error' && (
-              <div className="mx-6 mt-4 p-4 rounded-lg bg-red-50 border border-red-200 text-red-800">
+              <div className="mx-3 sm:mx-4 md:mx-6 mt-3 sm:mt-4 p-3 sm:p-4 rounded-lg bg-red-50 border border-red-200 text-red-800">
                 <div className="flex items-center gap-2">
-                  <X size={20} />
-                  <p>{mensaje.texto}</p>
+                  <X size={18} className="sm:w-5 sm:h-5 flex-shrink-0" />
+                  <p className="text-sm sm:text-base">{mensaje.texto}</p>
                 </div>
               </div>
             )}
 
             {/* Contenido */}
             {cargandoDetalle ? (
-              <div className="flex justify-center items-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <div className="flex justify-center items-center py-8 sm:py-12">
+                <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-blue-600"></div>
               </div>
             ) : detalleAlumna ? (
-              <div className="p-6 space-y-6">
+              <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6">
                 {/* Información Personal */}
                 <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <Users className="text-blue-600" size={20} />
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center gap-1.5 sm:gap-2">
+                    <Users className="text-blue-600 flex-shrink-0" size={18} className="sm:w-5 sm:h-5" />
                     Información Personal
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="text-sm font-medium text-gray-500">Nombre</label>
                       <p className="text-gray-900">{detalleAlumna.nombre}</p>
@@ -1057,8 +1059,8 @@ export default function AdminAlumnas() {
 
                 {/* Pagos */}
                 <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <CreditCard className="text-blue-600" size={20} />
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center gap-1.5 sm:gap-2">
+                    <CreditCard className="text-blue-600 flex-shrink-0" size={18} className="sm:w-5 sm:h-5" />
                     Historial de Pagos ({detalleAlumna.pagos?.length || 0})
                   </h3>
                   {detalleAlumna.pagos && detalleAlumna.pagos.length > 0 ? (
@@ -1143,8 +1145,8 @@ export default function AdminAlumnas() {
 
                 {/* Reservaciones */}
                 <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <Calendar className="text-blue-600" size={20} />
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center gap-1.5 sm:gap-2">
+                    <Calendar className="text-blue-600 flex-shrink-0" size={18} className="sm:w-5 sm:h-5" />
                     Reservaciones Recientes ({detalleAlumna.reservaciones?.length || 0})
                   </h3>
                   {detalleAlumna.reservaciones && detalleAlumna.reservaciones.length > 0 ? (
@@ -1187,7 +1189,7 @@ export default function AdminAlumnas() {
                 </div>
 
                 {/* Botones de Acción */}
-                <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200">
                   <button
                     type="button"
                     onClick={() => {
@@ -1195,9 +1197,9 @@ export default function AdminAlumnas() {
                       setAlumnaSeleccionada(detalleAlumna);
                       abrirModalReservacion();
                     }}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-sm"
+                    className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg sm:rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-xs sm:text-sm"
                   >
-                    <Calendar size={20} className="stroke-2" />
+                    <Calendar size={18} className="sm:w-5 sm:h-5 stroke-2" />
                     Asignar Clase
                   </button>
                   <button
