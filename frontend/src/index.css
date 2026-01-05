@@ -27,6 +27,8 @@
     width: 100%;
     position: relative;
     touch-action: pan-y; /* Solo permite scroll vertical en móviles */
+    overscroll-behavior-x: none; /* Previene scroll horizontal */
+    -webkit-overflow-scrolling: touch;
   }
   
   body {
@@ -39,6 +41,7 @@
     position: relative;
     touch-action: pan-y; /* Solo permite scroll vertical en móviles */
     overscroll-behavior-x: none; /* Previene scroll horizontal al hacer swipe */
+    -webkit-overflow-scrolling: touch;
   }
   
   #root {
@@ -47,6 +50,7 @@
     overflow-x: hidden !important;
     margin: 0 auto;
     position: relative;
+    min-width: 0;
   }
 }
 
@@ -89,6 +93,7 @@
 /* Prevenir overflow horizontal en todos los dispositivos */
 * {
   max-width: 100%;
+  min-width: 0;
 }
 
 /* Prevenir scroll horizontal en todos los elementos */
@@ -100,8 +105,10 @@
 
 /* Asegurar que ningún elemento cause overflow */
 div, section, article, main, header, footer, nav, aside {
-  max-width: 100%;
-  overflow-x: hidden;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  min-width: 0;
+  position: relative;
 }
 
 img, video, iframe {
@@ -111,8 +118,15 @@ img, video, iframe {
 
 /* Prevenir que elementos flex causen overflow */
 .flex, .flex-row, .flex-col {
-  min-width: 0;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Prevenir scroll horizontal en contenedores específicos */
+.space-y-6, .space-y-4, .space-y-3, .space-y-2 {
   max-width: 100%;
+  overflow-x: hidden;
+  min-width: 0;
 }
 
 /* Mejoras de responsividad para móviles (iPhone) */

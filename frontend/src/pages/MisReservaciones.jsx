@@ -126,10 +126,28 @@ export default function MisReservaciones() {
   });
 
   return (
-    <div className="space-y-6 w-full max-w-full overflow-x-hidden" style={{ position: 'relative', minWidth: 0 }}>
-      <div className="w-full" style={{ maxWidth: '100%', overflowX: 'hidden' }}>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center sm:text-left">Mis Reservaciones</h1>
-        <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left">Gestiona tus reservaciones y cambios de horario</p>
+    <div 
+      className="space-y-6 w-full" 
+      style={{ 
+        position: 'relative', 
+        minWidth: 0, 
+        maxWidth: '100%', 
+        overflowX: 'hidden',
+        width: '100%',
+        boxSizing: 'border-box'
+      }}
+    >
+      <div 
+        className="w-full" 
+        style={{ 
+          maxWidth: '100%', 
+          overflowX: 'hidden',
+          minWidth: 0,
+          boxSizing: 'border-box'
+        }}
+      >
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center sm:text-left" style={{ wordBreak: 'break-word' }}>Mis Reservaciones</h1>
+        <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left" style={{ wordBreak: 'break-word' }}>Gestiona tus reservaciones y cambios de horario</p>
       </div>
 
       {/* Mensajes */}
@@ -174,7 +192,16 @@ export default function MisReservaciones() {
       )}
 
       {/* Filtros */}
-      <div className="flex flex-wrap gap-2 justify-center sm:justify-start w-full" style={{ maxWidth: '100%', overflowX: 'hidden', minWidth: 0 }}>
+      <div 
+        className="flex flex-wrap gap-2 justify-center sm:justify-start w-full" 
+        style={{ 
+          maxWidth: '100%', 
+          overflowX: 'hidden', 
+          minWidth: 0,
+          width: '100%',
+          boxSizing: 'border-box'
+        }}
+      >
         <button
           onClick={() => setFiltroEstatus('todas')}
           className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
@@ -228,12 +255,30 @@ export default function MisReservaciones() {
           <p className="text-gray-500">No tienes reservaciones {filtroEstatus !== 'todas' ? `con estatus "${filtroEstatus}"` : ''}</p>
         </div>
       ) : (
-        <div className="space-y-6" style={{ maxWidth: '100%', overflowX: 'hidden', minWidth: 0 }}>
+        <div 
+          className="space-y-6" 
+          style={{ 
+            maxWidth: '100%', 
+            overflowX: 'hidden', 
+            minWidth: 0,
+            width: '100%',
+            boxSizing: 'border-box'
+          }}
+        >
           {/* Reservaciones Futuras */}
           {reservacionesFuturas.length > 0 && (
-            <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Próximas Reservaciones</h2>
-              <div className="space-y-3" style={{ maxWidth: '100%', overflowX: 'hidden' }}>
+            <div style={{ maxWidth: '100%', overflowX: 'hidden', minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
+              <h2 className="text-xl font-bold text-gray-900 mb-4" style={{ wordBreak: 'break-word' }}>Próximas Reservaciones</h2>
+              <div 
+                className="space-y-3" 
+                style={{ 
+                  maxWidth: '100%', 
+                  overflowX: 'hidden',
+                  minWidth: 0,
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}
+              >
                 {reservacionesFuturas.map((res) => {
                   const fecha = parseISO(res.fecha_reserva);
                   const esHoy = format(fecha, 'yyyy-MM-dd') === format(hoy, 'yyyy-MM-dd');
@@ -242,10 +287,25 @@ export default function MisReservaciones() {
                   return (
                     <div
                       key={res.id}
-                      className="card border-l-4 border-l-pink-500 w-full max-w-full overflow-x-hidden"
-                      style={{ maxWidth: '100%', overflowX: 'hidden', position: 'relative', minWidth: 0 }}
+                      className="card border-l-4 border-l-pink-500 w-full"
+                      style={{ 
+                        maxWidth: '100%', 
+                        overflowX: 'hidden', 
+                        position: 'relative', 
+                        minWidth: 0,
+                        width: '100%',
+                        boxSizing: 'border-box'
+                      }}
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full" style={{ maxWidth: '100%', minWidth: 0 }}>
+                      <div 
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full" 
+                        style={{ 
+                          maxWidth: '100%', 
+                          minWidth: 0,
+                          width: '100%',
+                          boxSizing: 'border-box'
+                        }}
+                      >
                         <div className="flex-1 min-w-0 w-full sm:w-auto">
                           <div className="flex flex-wrap items-center gap-2 mb-2">
                             <h3 className="text-base sm:text-lg font-bold text-gray-900 break-words">{res.nombre_clase}</h3>
@@ -304,18 +364,42 @@ export default function MisReservaciones() {
 
           {/* Reservaciones Pasadas */}
           {reservacionesPasadas.length > 0 && (
-            <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Reservaciones Pasadas</h2>
-              <div className="space-y-3" style={{ maxWidth: '100%', overflowX: 'hidden' }}>
+            <div style={{ maxWidth: '100%', overflowX: 'hidden', minWidth: 0, width: '100%', boxSizing: 'border-box' }}>
+              <h2 className="text-xl font-bold text-gray-900 mb-4" style={{ wordBreak: 'break-word' }}>Reservaciones Pasadas</h2>
+              <div 
+                className="space-y-3" 
+                style={{ 
+                  maxWidth: '100%', 
+                  overflowX: 'hidden',
+                  minWidth: 0,
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}
+              >
                 {reservacionesPasadas.map((res) => {
                   const fecha = parseISO(res.fecha_reserva);
                   return (
                     <div
                       key={res.id}
-                      className="card border-l-4 border-l-gray-300 opacity-75 w-full max-w-full overflow-x-hidden"
-                      style={{ maxWidth: '100%', overflowX: 'hidden', position: 'relative', minWidth: 0 }}
+                      className="card border-l-4 border-l-gray-300 opacity-75 w-full"
+                      style={{ 
+                        maxWidth: '100%', 
+                        overflowX: 'hidden', 
+                        position: 'relative', 
+                        minWidth: 0,
+                        width: '100%',
+                        boxSizing: 'border-box'
+                      }}
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full" style={{ maxWidth: '100%', minWidth: 0 }}>
+                      <div 
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full" 
+                        style={{ 
+                          maxWidth: '100%', 
+                          minWidth: 0,
+                          width: '100%',
+                          boxSizing: 'border-box'
+                        }}
+                      >
                         <div className="flex-1 min-w-0 w-full">
                           <div className="flex flex-wrap items-center gap-2 mb-2">
                             <h3 className="text-base sm:text-lg font-bold text-gray-700 break-words">{res.nombre_clase}</h3>

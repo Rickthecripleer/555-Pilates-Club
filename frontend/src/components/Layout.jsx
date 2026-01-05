@@ -161,8 +161,27 @@ export default function Layout({ children }) {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8 w-full max-w-full overflow-x-hidden" style={{ maxWidth: '100%', overflowX: 'hidden', position: 'relative', minWidth: 0 }}>
-        <div className="w-full max-w-full overflow-x-hidden" style={{ maxWidth: '100%', overflowX: 'hidden', minWidth: 0 }}>
+      <main 
+        className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8 w-full" 
+        style={{ 
+          maxWidth: '100%', 
+          overflowX: 'hidden', 
+          position: 'relative', 
+          minWidth: 0,
+          width: '100%',
+          boxSizing: 'border-box'
+        }}
+      >
+        <div 
+          className="w-full" 
+          style={{ 
+            maxWidth: '100%', 
+            overflowX: 'hidden', 
+            minWidth: 0,
+            width: '100%',
+            boxSizing: 'border-box'
+          }}
+        >
           {children}
         </div>
       </main>
