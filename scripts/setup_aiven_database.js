@@ -40,80 +40,138 @@ async function setupDatabase() {
         console.log('✅ Script leído correctamente\n');
 
         // Dividir el script en sentencias individuales
-        // MySQL puede tener problemas con múltiples statements, así que las ejecutamos una por una
-        const statements = sql
-            .split(';')
-            .map(s => s.trim())
-            .filter(s => {
-                // Filtrar solo comentarios y líneas vacías
-                if (s.length === 0) return false;
-                if (s.startsWith('--')) return false;
-                if (s.startsWith('/*')) return false;
-                // Mantener todas las sentencias SQL válidas (CREATE, INSERT, SELECT, etc.)
-                return true;
-            });
+        // Mejor método: dividir por ';' pero mantener sentencias completas
+        let statements = [];
+        let currentStatement = '';
+        const lines = sql.split('\n');
+        
+        for (let line of lines) {
+            const trimmedLine = line.trim();
+            
+            // Saltar líneas vacías y comentarios completos
+            if (trimmedLine.length === 0 || trimmedLine.startsWith('--') || trimmedLine.startsWith('/*')) {
+                continue;
+            }
+            
+            // Agregar línea a la sentencia actual
+            currentStatement += (currentStatement ? ' ' : '') + trimmedLine;
+            
+            // Si la línea termina con ';', es el final de una sentencia
+            if (trimmedLine.endsWith(';')) {
+                const statement = currentStatement.slice(0, -1).trim(); // Quitar el ';' final
+                if (statement.length > 0 && !statement.startsWith('--')) {
+                    statements.push(statement);
+                }
+                currentStatement = '';
+            }
+        }
+        
+        // Si queda una sentencia sin ';' al final, agregarla
+        if (currentStatement.trim().length > 0) {
+            statements.push(currentStatement.trim());
+        }
 
-        console.log(`📝 Ejecutando ${statements.length} sentencias SQL...\n`);
+        console.log(`📝 Encontradas ${statements.length} sentencias SQL para ejecutar...\n`);
 
         let executed = 0;
         let errors = 0;
+        const errorDetails = [];
 
         for (let i = 0; i < statements.length; i++) {
             const statement = statements[i];
             
-            // Saltar solo si está completamente vacío después del trim
+            // Saltar si está vacío
             if (!statement || statement.length === 0) {
                 continue;
             }
             
             try {
-                await connection.query(statement + ';');
+                // Ejecutar la sentencia (agregar ';' si no lo tiene)
+                const sqlToExecute = statement.endsWith(';') ? statement : statement + ';';
+                await connection.query(sqlToExecute);
                 executed++;
+                
+                // Mostrar progreso cada 5 sentencias
                 if (executed % 5 === 0) {
-                    process.stdout.write(`\r⏳ Progreso: ${executed} sentencias ejecutadas...`);
+                    process.stdout.write(`\r⏳ Progreso: ${executed}/${statements.length} sentencias ejecutadas...`);
                 }
             } catch (error) {
-                // Ignorar errores de "table already exists" o "duplicate key"
+                // Ignorar errores esperados (tablas/registros ya existen)
                 if (error.message.includes('already exists') || 
                     error.message.includes('Duplicate entry') ||
-                    error.message.includes('Duplicate key')) {
-                    // Ignorar silenciosamente
+                    error.message.includes('Duplicate key') ||
+                    error.message.includes('Duplicate column name')) {
+                    // Ignorar silenciosamente - es normal si se ejecuta dos veces
                     executed++;
                 } else {
                     errors++;
-                    console.error(`\n❌ Error en sentencia ${i + 1}:`, error.message);
-                    console.error(`Sentencia: ${statement.substring(0, 150)}...`);
+                    const errorInfo = {
+                        index: i + 1,
+                        message: error.message,
+                        statement: statement.substring(0, 200)
+                    };
+                    errorDetails.push(errorInfo);
+                    console.error(`\n❌ Error en sentencia ${i + 1}/${statements.length}:`, error.message);
+                    console.error(`   Tipo: ${statement.substring(0, 50).toUpperCase()}...`);
                 }
             }
         }
         
-        console.log(`\n\n✅ Ejecutadas: ${executed} sentencias`);
+        console.log(`\n\n📊 Resumen:`);
+        console.log(`   ✅ Ejecutadas correctamente: ${executed} sentencias`);
         if (errors > 0) {
-            console.log(`⚠️  Errores: ${errors} sentencias`);
+            console.log(`   ⚠️  Errores: ${errors} sentencias`);
+            console.log(`\n🔍 Detalles de errores:`);
+            errorDetails.forEach(err => {
+                console.log(`   - Sentencia ${err.index}: ${err.message}`);
+            });
+        } else {
+            console.log(`   🎉 ¡Todas las sentencias se ejecutaron sin errores!`);
         }
 
         console.log('\n✅ Script ejecutado completamente!\n');
 
         // Verificar las tablas creadas
-        console.log('🔍 Verificando tablas creadas...\n');
+        console.log('\n🔍 Verificando tablas creadas...\n');
         
-        const [tables] = await connection.query('SHOW TABLES');
-        console.log(`📊 Tablas encontradas: ${tables.length}`);
-        tables.forEach(table => {
-            console.log(`   - ${Object.values(table)[0]}`);
-        });
+        try {
+            const [tables] = await connection.query('SHOW TABLES');
+            console.log(`📊 Tablas encontradas: ${tables.length}`);
+            if (tables.length > 0) {
+                tables.forEach(table => {
+                    console.log(`   ✅ ${Object.values(table)[0]}`);
+                });
+            } else {
+                console.log('   ⚠️  No se encontraron tablas. Puede que haya habido errores.');
+            }
+        } catch (error) {
+            console.error('   ❌ Error al verificar tablas:', error.message);
+        }
 
-        // Verificar clases
-        const [clases] = await connection.query('SELECT COUNT(*) as total FROM clases');
-        console.log(`\n📚 Clases: ${clases[0].total}`);
+        // Verificar datos en tablas principales
+        console.log('\n📊 Verificando datos insertados:\n');
+        
+        const tablesToCheck = [
+            { name: 'clases', label: '📚 Clases' },
+            { name: 'horarios', label: '⏰ Horarios' },
+            { name: 'contenido_nosotros', label: '📝 Contenido' },
+            { name: 'usuarios', label: '👥 Usuarios' }
+        ];
 
-        // Verificar horarios
-        const [horarios] = await connection.query('SELECT COUNT(*) as total FROM horarios');
-        console.log(`⏰ Horarios: ${horarios[0].total}`);
-
-        // Verificar contenido
-        const [contenido] = await connection.query('SELECT COUNT(*) as total FROM contenido_nosotros');
-        console.log(`📝 Contenido: ${contenido[0].total}\n`);
+        for (const table of tablesToCheck) {
+            try {
+                const [result] = await connection.query(`SELECT COUNT(*) as total FROM ${table.name}`);
+                console.log(`${table.label}: ${result[0].total} registros`);
+            } catch (error) {
+                if (error.message.includes("doesn't exist")) {
+                    console.log(`${table.label}: ❌ Tabla no existe`);
+                } else {
+                    console.log(`${table.label}: ⚠️  Error: ${error.message}`);
+                }
+            }
+        }
+        
+        console.log('');
 
         console.log('✅ ¡Base de datos configurada correctamente!');
         console.log('\n🎉 Próximo paso: Desplegar en Render\n');
