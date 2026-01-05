@@ -100,7 +100,11 @@ export default function Nosotros() {
   // Manejar edición de imagen - abre directamente el explorador
   const handleEditarImagen = (seccion, campo, inputRef) => {
     if (inputRef && inputRef.current) {
+      // Resetear el input para permitir seleccionar el mismo archivo de nuevo
+      inputRef.current.value = '';
       inputRef.current.click();
+    } else {
+      console.error('Input ref no está disponible para:', seccion, campo);
     }
   };
 
