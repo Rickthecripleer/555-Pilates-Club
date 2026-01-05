@@ -90,17 +90,30 @@
   display: none;
 }
 
-/* Animación para menú móvil */
-@keyframes slideIn {
+/* Animaciones para menú móvil */
+@keyframes slideInFromLeft {
   from {
     transform: translateX(-100%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
-@keyframes fadeIn {
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInOverlay {
   from {
     opacity: 0;
   }
@@ -109,8 +122,29 @@
   }
 }
 
+@keyframes fadeOutOverlay {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .mobile-menu-container {
-  animation: slideIn 0.3s ease-out;
+  animation: slideInFromLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-container.closing {
+  animation: slideOutToLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-overlay {
+  animation: fadeInOverlay 0.3s ease-out;
+}
+
+.mobile-menu-overlay.closing {
+  animation: fadeOutOverlay 0.3s ease-out;
 }
 
 /* Prevenir scroll cuando el menú móvil está abierto */

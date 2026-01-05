@@ -222,12 +222,12 @@ export default function Layout({ children }) {
         </div>
       </nav>
 
-      {/* Menú Móvil Desplegable */}
+      {/* Menú Móvil Desplegable - Estilo Elegante */}
       {menuOpen && (
         <>
-          {/* Overlay oscuro */}
+          {/* Overlay oscuro con animación */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
+            className="mobile-menu-overlay fixed inset-0 bg-black bg-opacity-60 z-40 sm:hidden"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -240,52 +240,60 @@ export default function Layout({ children }) {
             }}
           />
           
-          {/* Menú desplegable */}
+          {/* Menú desplegable - Estilo similar a ezencia */}
           <div 
-            className="mobile-menu-container fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 sm:hidden overflow-y-auto"
+            className="mobile-menu-container fixed top-0 left-0 h-full w-[75vw] max-w-sm bg-white shadow-2xl z-50 sm:hidden overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: '400px' }}
           >
-            <div className="p-4 border-b border-pink-100">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{user.nombre}</p>
-                  <p className="text-xs text-gray-500 capitalize">{user.rol}</p>
-                </div>
+            {/* Header del menú con Logo y botón cerrar */}
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center justify-between">
+                {/* Logo */}
+                <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3">
+                  <Logo size="sm" />
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold text-gray-900">555 Pilates Club</span>
+                    <span className="text-xs text-gray-500 uppercase tracking-wide">Salina Cruz</span>
+                  </div>
+                </Link>
+                
+                {/* Botón cerrar - Estilo dorado */}
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                  className="p-2 text-amber-600 hover:text-amber-700 hover:bg-amber-50 rounded-full transition-all"
                   aria-label="Cerrar menú"
+                  type="button"
                 >
-                  <X size={24} />
+                  <X size={28} strokeWidth={2.5} />
                 </button>
               </div>
             </div>
             
-            <nav className="flex flex-col py-2">
+            {/* Navegación - Sin iconos, solo texto elegante */}
+            <nav className="flex flex-col py-6">
               <Link
                 to="/"
                 onClick={() => setMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                   isActive('/')
-                    ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                 }`}
               >
-                <Home size={20} />
-                <span>Inicio</span>
+                Inicio
               </Link>
               
               <Link
                 to="/panel"
                 onClick={() => setMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                   isActive('/panel')
-                    ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                 }`}
               >
-                <LayoutDashboard size={20} />
-                <span>Panel de Control</span>
+                Panel de Control
               </Link>
               
               {isAlumna() && (
@@ -293,38 +301,35 @@ export default function Layout({ children }) {
                   <Link
                     to="/reservaciones"
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                    className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/reservaciones')
-                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                     }`}
                   >
-                    <Calendar size={20} />
-                    <span>Reservar</span>
+                    Reservar
                   </Link>
                   <Link
                     to="/mis-reservaciones"
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                    className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/mis-reservaciones')
-                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                     }`}
                   >
-                    <Calendar size={20} />
-                    <span>Mis Reservaciones</span>
+                    Mis Reservaciones
                   </Link>
                   <Link
                     to="/pagos"
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                    className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/pagos')
-                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                     }`}
                   >
-                    <CreditCard size={20} />
-                    <span>Pagos</span>
+                    Pagos
                   </Link>
                 </>
               )}
@@ -334,50 +339,53 @@ export default function Layout({ children }) {
                   <Link
                     to="/admin/reservaciones"
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                    className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/admin/reservaciones')
-                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                     }`}
                   >
-                    <Calendar size={20} />
-                    <span>Asistencia</span>
+                    Asistencia
                   </Link>
                   <Link
                     to="/admin/alumnas"
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                    className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/admin/alumnas')
-                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                     }`}
                   >
-                    <Users size={20} />
-                    <span>Alumnas</span>
+                    Alumnas
                   </Link>
                   <Link
                     to="/admin/pagos"
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                    className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/admin/pagos')
-                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
                     }`}
                   >
-                    <CreditCard size={20} />
-                    <span>Gestión Pagos</span>
+                    Gestión Pagos
                   </Link>
                 </>
               )}
               
-              {/* Botón Salir en el menú móvil - Más llamativo */}
-              <div className="border-t border-gray-200 mt-auto pt-2">
+              {/* Información del usuario */}
+              <div className="px-6 py-4 mt-auto border-t border-gray-200">
+                <div className="mb-4">
+                  <p className="text-sm font-medium text-gray-900">{user.nombre}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user.rol}</p>
+                </div>
+                
+                {/* Botón Salir - Estilo elegante */}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center justify-center gap-3 px-4 py-3 text-base font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg mx-4 mb-2 transition-all shadow-md"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 text-base font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all shadow-md"
                   type="button"
                 >
-                  <LogOut size={20} />
+                  <LogOut size={18} />
                   <span>Salir</span>
                 </button>
               </div>
