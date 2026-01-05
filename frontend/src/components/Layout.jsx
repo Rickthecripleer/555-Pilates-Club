@@ -368,17 +368,17 @@ export default function Layout({ children }) {
                   <p className="text-sm font-medium text-gray-900">{user.nombre}</p>
                   <p className="text-xs text-gray-500 capitalize">{user.rol}</p>
                 </div>
-                
-                {/* Botón Salir - Estilo simple y elegante */}
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 text-base font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all shadow-md"
-                  type="button"
-                >
-                  <LogOut size={18} />
-                  <span>Salir</span>
-                </button>
               </div>
+              
+              {/* Opción Cerrar Sesión - Estilo elegante como opción del menú */}
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-6 py-4 text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-200"
+                type="button"
+              >
+                <LogOut size={20} className="text-gray-500" />
+                <span>Cerrar Sesión</span>
+              </button>
             </nav>
           </div>
         </>

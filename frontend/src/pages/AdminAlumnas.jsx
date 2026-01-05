@@ -300,10 +300,10 @@ export default function AdminAlumnas() {
         </div>
         <button
           onClick={abrirModalRegistroRapido}
-          className="btn-primary flex items-center gap-2"
+          className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition-colors font-medium text-sm sm:text-base flex items-center gap-2"
         >
-          <Users size={18} />
-          Registrar Alumna Rápida
+          <Users size={16} />
+          <span className="whitespace-nowrap">Registrar Alumna</span>
         </button>
       </div>
 
@@ -321,25 +321,26 @@ export default function AdminAlumnas() {
         </div>
       </div>
 
-      {/* Tabla de Alumnas */}
+      {/* Tabla de Alumnas - Responsive */}
       <div className="card overflow-hidden p-0">
-        <div className="overflow-x-auto">
+        {/* Vista Desktop - Tabla completa */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Alumna
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Contacto
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Fecha Registro
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Estado
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
@@ -354,44 +355,46 @@ export default function AdminAlumnas() {
               ) : (
                 alumnasFiltradas.map((alumna) => (
                   <tr key={alumna.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 lg:px-6 py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">
                           <span className="text-pink-700 font-medium">
                             {alumna.nombre.charAt(0).toUpperCase()}
                           </span>
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                        <div className="ml-3 lg:ml-4">
+                          <div className="text-sm font-medium text-gray-900 break-words">
                             {alumna.nombre}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-xs text-gray-500">
                             ID: {alumna.id}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900 flex items-center gap-2 mb-1 max-w-xs">
+                    <td className="px-4 lg:px-6 py-4">
+                      <div className="text-sm text-gray-900 flex items-center gap-2 mb-1">
                         <Mail size={14} className="text-gray-400 flex-shrink-0" />
-                        <span className="truncate" title={alumna.email}>
+                        <span className="break-all" title={alumna.email}>
                           {alumna.email}
                         </span>
                       </div>
                       {alumna.telefono && (
                         <div className="text-sm text-gray-500 flex items-center gap-2">
-                          <Phone size={14} className="text-gray-400" />
-                          {alumna.telefono}
+                          <Phone size={14} className="text-gray-400 flex-shrink-0" />
+                          <span>{alumna.telefono}</span>
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900 flex items-center gap-2">
-                        <Calendar size={14} className="text-gray-400" />
-                        {format(parseISO(alumna.fecha_registro), "dd 'de' MMMM, yyyy", { locale: es })}
+                        <Calendar size={14} className="text-gray-400 flex-shrink-0" />
+                        <span className="text-xs lg:text-sm">
+                          {format(parseISO(alumna.fecha_registro), "dd 'de' MMMM, yyyy", { locale: es })}
+                        </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           alumna.activo
@@ -402,9 +405,8 @@ export default function AdminAlumnas() {
                         {alumna.activo ? 'Activa' : 'Inactiva'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center gap-2">
-                        {/* NUEVA REGLA: Permitir registro de pagos para cualquier alumna */}
                         <button
                           onClick={() => abrirModalPago(alumna)}
                           className="text-xs px-2 py-1 text-pink-600 hover:text-pink-900 hover:bg-pink-50 rounded transition-colors flex items-center gap-1"
@@ -428,6 +430,83 @@ export default function AdminAlumnas() {
               )}
             </tbody>
           </table>
+        </div>
+        
+        {/* Vista Móvil - Cards */}
+        <div className="md:hidden space-y-4 p-4">
+          {alumnasFiltradas.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              {busqueda ? 'No se encontraron alumnas con ese criterio' : 'No hay alumnas registradas'}
+            </div>
+          ) : (
+            alumnasFiltradas.map((alumna) => (
+              <div key={alumna.id} className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+                {/* Header con Avatar y Nombre */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
+                    <span className="text-pink-700 font-medium text-lg">
+                      {alumna.nombre.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-base font-medium text-gray-900 break-words">
+                      {alumna.nombre}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      ID: {alumna.id}
+                    </div>
+                  </div>
+                  <span
+                    className={`px-2 py-1 text-xs font-semibold rounded-full flex-shrink-0 ${
+                      alumna.activo
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
+                  >
+                    {alumna.activo ? 'Activa' : 'Inactiva'}
+                  </span>
+                </div>
+                
+                {/* Contacto */}
+                <div className="space-y-2 border-t border-gray-100 pt-3">
+                  <div className="flex items-start gap-2">
+                    <Mail size={16} className="text-gray-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-900 break-all">{alumna.email}</span>
+                  </div>
+                  {alumna.telefono && (
+                    <div className="flex items-center gap-2">
+                      <Phone size={16} className="text-gray-400 flex-shrink-0" />
+                      <span className="text-sm text-gray-600">{alumna.telefono}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Calendar size={16} className="text-gray-400 flex-shrink-0" />
+                    <span className="text-sm text-gray-600">
+                      {format(parseISO(alumna.fecha_registro), "dd 'de' MMMM, yyyy", { locale: es })}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Acciones */}
+                <div className="flex gap-2 pt-2 border-t border-gray-100">
+                  <button
+                    onClick={() => abrirModalPago(alumna)}
+                    className="flex-1 px-3 py-2 text-sm text-pink-600 hover:text-pink-900 hover:bg-pink-50 rounded-lg transition-colors flex items-center justify-center gap-1 border border-pink-200"
+                  >
+                    <DollarSign size={16} />
+                    Pago
+                  </button>
+                  <button
+                    onClick={() => abrirModalDetalle(alumna.id)}
+                    className="flex-1 px-3 py-2 text-sm text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-1 border border-blue-200"
+                  >
+                    <Eye size={16} />
+                    Ver Detalles
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

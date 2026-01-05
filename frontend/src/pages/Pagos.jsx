@@ -8,6 +8,27 @@ import DatosBancarios from '../components/DatosBancarios';
 import { WHATSAPP_NUMBER } from '../config/whatsapp';
 import { COSTO_INSCRIPCION } from '../config/constants';
 
+// Función helper para obtener la URL base del backend
+const getBackendUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    // Si es una URL completa, extraer el dominio
+    if (apiUrl.startsWith('http')) {
+      try {
+        const url = new URL(apiUrl);
+        return `${url.protocol}//${url.host}`;
+      } catch (e) {
+        return apiUrl.replace('/api', '');
+      }
+    }
+    return apiUrl.replace('/api', '');
+  }
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:3000';
+  }
+  return `http://${window.location.hostname}:3000`;
+};
+
 // Configuración de planes
 const PLANES = [
   {
@@ -673,7 +694,7 @@ Ya subi el comprobante en el sistema. Por favor, validalo cuando tengas oportuni
                       )}
                       {pago.comprobante_url && (
                         <a
-                          href={`http://localhost:3000${pago.comprobante_url}`}
+                          href={`${getBackendUrl()}${pago.comprobante_url}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm text-slate-600 hover:text-slate-800 mt-2 inline-flex items-center gap-1 underline"
