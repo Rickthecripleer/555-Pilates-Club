@@ -90,6 +90,36 @@
   display: none;
 }
 
+/* Animación para menú móvil */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mobile-menu-container {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Prevenir scroll cuando el menú móvil está abierto */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
 /* Prevenir overflow horizontal en todos los dispositivos */
 * {
   max-width: 100%;

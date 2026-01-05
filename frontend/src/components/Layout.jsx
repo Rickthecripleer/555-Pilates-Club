@@ -1,19 +1,49 @@
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Calendar, CreditCard, Home, Users, Info, LayoutDashboard } from 'lucide-react';
+import { LogOut, Calendar, CreditCard, Home, Users, Info, LayoutDashboard, Menu, X } from 'lucide-react';
 import Logo from './Logo';
 
 export default function Layout({ children }) {
   const { user, logout, isAdmin, isAlumna } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+    setMenuOpen(false);
   };
 
   const isActive = (path) => location.pathname === path;
+
+  // Cerrar menú cuando cambia la ruta
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  // Cerrar menú al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuOpen && !event.target.closest('.mobile-menu-container')) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener('click', handleClickOutside);
+      // Prevenir scroll del body cuando el menú está abierto
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
   if (!user) return null;
 
@@ -22,9 +52,19 @@ export default function Layout({ children }) {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-pink-100 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="flex flex-col sm:flex-row justify-between items-center py-4 gap-3 sm:gap-0">
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
-              <Link to="/" className="flex items-center gap-3">
+          <div className="flex flex-row justify-between items-center py-4 gap-3">
+            {/* Logo y Botón Menú (Móvil) */}
+            <div className="flex items-center gap-3 flex-1">
+              {/* Botón Menú Hamburguesa - Solo móvil */}
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="sm:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                aria-label="Toggle menu"
+              >
+                {menuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+              
+              <Link to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
                 <Logo size="sm" />
                 <span className="text-xl font-bold text-pink-600 hidden sm:inline">
                   555 Pilates Club
@@ -32,8 +72,9 @@ export default function Layout({ children }) {
               </Link>
             </div>
             
-            <div className="flex items-center gap-4 w-full sm:w-auto justify-center sm:justify-end">
-              <div className="text-right hidden sm:block">
+            {/* Información de Usuario y Botón Salir - Desktop */}
+            <div className="hidden sm:flex items-center gap-4">
+              <div className="text-right">
                 <p className="text-sm font-medium text-gray-900">{user.nombre}</p>
                 <p className="text-xs text-gray-500 capitalize">{user.rol}</p>
               </div>
@@ -42,15 +83,24 @@ export default function Layout({ children }) {
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <LogOut size={18} />
-                <span className="hidden sm:inline">Salir</span>
+                <span>Salir</span>
               </button>
             </div>
+
+            {/* Botón Salir - Solo móvil (en header) */}
+            <button
+              onClick={handleLogout}
+              className="sm:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+              aria-label="Salir"
+            >
+              <LogOut size={20} />
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Navigation */}
-      <nav className="bg-white border-b border-pink-100 sticky top-0 z-10 w-full">
+      {/* Navigation Desktop - Oculto en móvil */}
+      <nav className="hidden sm:block bg-white border-b border-pink-100 sticky top-0 z-10 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="flex space-x-1 overflow-x-auto scrollbar-hide w-full">
             <Link
@@ -74,8 +124,7 @@ export default function Layout({ children }) {
               }`}
             >
               <LayoutDashboard size={16} className="sm:w-[18px] sm:h-[18px]" />
-              <span className="hidden xs:inline">Panel de Control</span>
-              <span className="xs:hidden">Panel</span>
+              <span>Panel de Control</span>
             </Link>
             
             {isAlumna() && (
@@ -100,8 +149,7 @@ export default function Layout({ children }) {
                   }`}
                 >
                   <Calendar size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <span className="hidden sm:inline">Mis Reservaciones</span>
-                  <span className="sm:hidden">Mis Reservas</span>
+                  <span>Mis Reservaciones</span>
                 </Link>
                 <Link
                   to="/pagos"
@@ -128,8 +176,7 @@ export default function Layout({ children }) {
                   }`}
                 >
                   <Calendar size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <span className="hidden sm:inline">Asistencia</span>
-                  <span className="sm:hidden">Asistencia</span>
+                  <span>Asistencia</span>
                 </Link>
                 <Link
                   to="/admin/alumnas"
@@ -151,14 +198,164 @@ export default function Layout({ children }) {
                   }`}
                 >
                   <CreditCard size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <span className="hidden sm:inline">Gestión Pagos</span>
-                  <span className="sm:hidden">Pagos</span>
+                  <span>Gestión Pagos</span>
                 </Link>
               </>
             )}
           </div>
         </div>
       </nav>
+
+      {/* Menú Móvil Desplegable */}
+      {menuOpen && (
+        <>
+          {/* Overlay oscuro */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
+            onClick={() => setMenuOpen(false)}
+          />
+          
+          {/* Menú desplegable */}
+          <div className="mobile-menu-container fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 sm:hidden overflow-y-auto">
+            <div className="p-4 border-b border-pink-100">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{user.nombre}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user.rol}</p>
+                </div>
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                  aria-label="Cerrar menú"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+            
+            <nav className="flex flex-col py-2">
+              <Link
+                to="/"
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                  isActive('/')
+                    ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <Home size={20} />
+                <span>Inicio</span>
+              </Link>
+              
+              <Link
+                to="/panel"
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                  isActive('/panel')
+                    ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <LayoutDashboard size={20} />
+                <span>Panel de Control</span>
+              </Link>
+              
+              {isAlumna() && (
+                <>
+                  <Link
+                    to="/reservaciones"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                      isActive('/reservaciones')
+                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Calendar size={20} />
+                    <span>Reservar</span>
+                  </Link>
+                  <Link
+                    to="/mis-reservaciones"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                      isActive('/mis-reservaciones')
+                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Calendar size={20} />
+                    <span>Mis Reservaciones</span>
+                  </Link>
+                  <Link
+                    to="/pagos"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                      isActive('/pagos')
+                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <CreditCard size={20} />
+                    <span>Pagos</span>
+                  </Link>
+                </>
+              )}
+              
+              {isAdmin() && (
+                <>
+                  <Link
+                    to="/admin/reservaciones"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                      isActive('/admin/reservaciones')
+                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Calendar size={20} />
+                    <span>Asistencia</span>
+                  </Link>
+                  <Link
+                    to="/admin/alumnas"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                      isActive('/admin/alumnas')
+                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Users size={20} />
+                    <span>Alumnas</span>
+                  </Link>
+                  <Link
+                    to="/admin/pagos"
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 text-base font-medium transition-colors ${
+                      isActive('/admin/pagos')
+                        ? 'bg-pink-50 text-pink-600 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <CreditCard size={20} />
+                    <span>Gestión Pagos</span>
+                  </Link>
+                </>
+              )}
+              
+              {/* Botón Salir en el menú móvil */}
+              <div className="border-t border-gray-200 mt-auto pt-2">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-3 px-4 py-3 text-base font-medium text-red-600 hover:bg-red-50 w-full transition-colors"
+                >
+                  <LogOut size={20} />
+                  <span>Salir</span>
+                </button>
+              </div>
+            </nav>
+          </div>
+        </>
+      )}
 
       {/* Main Content */}
       <main 
