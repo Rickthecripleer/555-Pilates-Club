@@ -77,19 +77,18 @@ export default function Nosotros() {
     if (campo === 'imagen' && valor) {
       let imageUrl = valor;
       
-      // Si es una ruta relativa que empieza con /uploads/, usar proxy de Vite o construir URL completa
+      // Si es una ruta relativa que empieza con /uploads/, construir URL completa del backend
       if (valor.startsWith('/uploads/')) {
-        // En desarrollo, el proxy de Vite manejará /uploads
-        // En producción o si el proxy no funciona, usar URL completa del backend
-        // Intentar primero con URL relativa (funciona con proxy de Vite)
-        imageUrl = `${valor}?v=${imageVersion}`;
+        const backendUrl = getBackendUrl();
+        // Construir URL completa y agregar timestamp único para forzar refresh
+        imageUrl = `${backendUrl}${valor}?v=${imageVersion}&t=${Date.now()}`;
       } else if (valor.startsWith('http')) {
-        // Si ya es una URL completa, solo agregar el version
-        imageUrl = `${valor}?v=${imageVersion}`;
+        // Si ya es una URL completa, agregar timestamp para forzar refresh
+        imageUrl = `${valor}?v=${imageVersion}&t=${Date.now()}`;
       } else {
         // Si no es una ruta conocida, construir URL completa del backend
         const backendUrl = getBackendUrl();
-        imageUrl = `${backendUrl}${valor}?v=${imageVersion}`;
+        imageUrl = `${backendUrl}${valor}?v=${imageVersion}&t=${Date.now()}`;
       }
       
       return imageUrl;
@@ -143,29 +142,35 @@ export default function Nosotros() {
       if (response.success) {
         const newUrl = response.data.url;
         
+        // Forzar actualización de imágenes ANTES de actualizar el estado
+        const newVersion = Date.now();
+        setImageVersion(newVersion);
+        
         // Actualizar el estado local inmediatamente con la nueva URL
         setContenido(prev => {
           const nuevoEstado = { ...prev };
           if (!nuevoEstado[seccion]) nuevoEstado[seccion] = {};
-          if (!nuevoEstado[seccion][campo]) nuevoEstado[seccion][campo] = {};
           nuevoEstado[seccion][campo] = {
-            ...nuevoEstado[seccion][campo],
-            contenido: newUrl
+            tipo: 'imagen',
+            contenido: newUrl,
+            orden: 0
           };
           return nuevoEstado;
         });
         
-        // Forzar actualización de imágenes cambiando el version
-        const newVersion = Date.now();
-        setImageVersion(newVersion);
-        
         // Recargar contenido completo para asegurar sincronización
         await cargarContenido();
         
-        // Forzar otro cambio de version después de cargar para asegurar refresh
+        // Forzar múltiples actualizaciones de version para asegurar refresh completo
         setTimeout(() => {
-          setImageVersion(Date.now());
-        }, 100);
+          setImageVersion(Date.now() + 1);
+        }, 50);
+        setTimeout(() => {
+          setImageVersion(Date.now() + 2);
+        }, 150);
+        setTimeout(() => {
+          setImageVersion(Date.now() + 3);
+        }, 300);
         
         alert('Imagen actualizada correctamente');
       } else {
@@ -312,10 +317,14 @@ export default function Nosotros() {
             <div className="order-2 md:order-1 relative">
                 <div className="relative w-full h-[300px] sm:h-[400px] md:h-[450px]">
                   <img
-                    key={`intro-img-${imageVersion}-${obtenerContenido('introduccion', 'imagen', '/images/nosotros-estudio.jpg')}`}
+                    key={`intro-img-${imageVersion}-${contenido?.introduccion?.imagen?.contenido || 'default'}-${Date.now()}`}
                     src={obtenerContenido('introduccion', 'imagen', '/images/nosotros-estudio.jpg')}
                 alt="Estudio de Pilates"
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
+                onLoad={() => {
+                  // Forzar refresh después de cargar
+                  setImageVersion(Date.now());
+                }}
                 onError={(e) => {
                   e.target.style.display = 'none';
                   if (e.target.nextElementSibling) {

@@ -86,7 +86,7 @@ export default function Layout({ children }) {
               </Link>
             </div>
             
-            {/* Información de Usuario y Botón Salir - Desktop */}
+            {/* Información de Usuario y Botón Salir - Solo Desktop */}
             <div className="hidden sm:flex items-center gap-4">
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-900">{user.nombre}</p>
@@ -94,23 +94,13 @@ export default function Layout({ children }) {
               </div>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-all font-medium"
+                type="button"
               >
                 <LogOut size={18} />
                 <span>Salir</span>
               </button>
             </div>
-
-            {/* Botón Salir - Solo móvil (en header) - Más llamativo */}
-            <button
-              onClick={handleLogout}
-              className="sm:hidden px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-all flex items-center gap-2 font-medium"
-              aria-label="Salir"
-              type="button"
-            >
-              <LogOut size={18} />
-              <span className="text-sm">Salir</span>
-            </button>
           </div>
         </div>
       </header>
@@ -379,7 +369,7 @@ export default function Layout({ children }) {
                   <p className="text-xs text-gray-500 capitalize">{user.rol}</p>
                 </div>
                 
-                {/* Botón Salir - Estilo elegante */}
+                {/* Botón Salir - Estilo simple y elegante */}
                 <button
                   onClick={handleLogout}
                   className="w-full flex items-center justify-center gap-2 px-4 py-3 text-base font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all shadow-md"
