@@ -13,9 +13,9 @@ const dbConfig = {
     queueLimit: 0,
     charset: 'utf8mb4',
     // SSL requerido para Aiven MySQL
-    ssl: process.env.NODE_ENV === 'production' ? {
+    ssl: {
         rejectUnauthorized: false
-    } : false
+    }
 };
 
 // Crear pool de conexiones
