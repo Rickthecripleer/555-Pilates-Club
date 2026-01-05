@@ -218,34 +218,36 @@ export default function Nosotros() {
           </div>
         </div>
         
-        {/* Input file oculto para hero - Fuera del contenedor de imagen */}
+        {/* Input file oculto para hero */}
         {isAdmin() && modoEdicion && (
-          <>
-            <input
-              ref={fileInputHeroRef}
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleSubirImagen(e, 'hero', 'imagen')}
-              className="hidden"
-              id="file-input-hero"
-            />
-            <div className="absolute top-4 right-4 z-50" style={{ zIndex: 10000, position: 'relative' }}>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleEditarImagen('hero', 'imagen', fileInputHeroRef);
-                }}
-                disabled={uploading}
-                className="bg-white hover:bg-pink-50 px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-pink-600 border-2 border-pink-300 transition-all disabled:opacity-50"
-                title="Editar imagen"
-                type="button"
-              >
-                <Edit2 size={16} />
-                <span>{uploading ? 'Subiendo...' : 'Editar Imagen'}</span>
-              </button>
-            </div>
-          </>
+          <input
+            ref={fileInputHeroRef}
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleSubirImagen(e, 'hero', 'imagen')}
+            className="hidden"
+            id="file-input-hero"
+          />
+        )}
+        
+        {/* Botón editar imagen hero - Posicionado absolutamente sobre la imagen con z-index muy alto */}
+        {isAdmin() && modoEdicion && (
+          <div className="absolute top-4 right-4 z-[100]">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleEditarImagen('hero', 'imagen', fileInputHeroRef);
+              }}
+              disabled={uploading}
+              className="bg-white hover:bg-pink-50 px-3 py-2 rounded-lg shadow-xl flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-pink-600 border-2 border-pink-300 transition-all disabled:opacity-50"
+              title="Editar imagen"
+              type="button"
+            >
+              <Edit2 size={16} />
+              <span>{uploading ? 'Subiendo...' : 'Editar Imagen'}</span>
+            </button>
+          </div>
         )}
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0"></div>

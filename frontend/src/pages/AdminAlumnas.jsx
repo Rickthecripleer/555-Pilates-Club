@@ -288,21 +288,21 @@ export default function AdminAlumnas() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
-            <Users className="text-pink-600" size={32} />
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+            <Users className="text-pink-600" size={28} />
             Gestión de Alumnas
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm sm:text-base">
             Total de alumnas: {alumnas.length}
           </p>
         </div>
         <button
           onClick={abrirModalRegistroRapido}
-          className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition-colors font-medium text-sm sm:text-base flex items-center gap-2"
+          className="px-3 py-1.5 sm:px-4 sm:py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm flex items-center gap-2 w-full sm:w-auto justify-center"
         >
-          <Users size={16} />
+          <Users size={14} className="sm:w-4 sm:h-4" />
           <span className="whitespace-nowrap">Registrar Alumna</span>
         </button>
       </div>
@@ -432,7 +432,7 @@ export default function AdminAlumnas() {
           </table>
         </div>
         
-        {/* Vista Móvil - Cards */}
+        {/* Vista Móvil - Cards Mejoradas */}
         <div className="md:hidden space-y-4 p-4">
           {alumnasFiltradas.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
@@ -440,67 +440,76 @@ export default function AdminAlumnas() {
             </div>
           ) : (
             alumnasFiltradas.map((alumna) => (
-              <div key={alumna.id} className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+              <div key={alumna.id} className="bg-white border border-gray-200 rounded-lg p-4 space-y-3 shadow-sm">
                 {/* Header con Avatar y Nombre */}
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
-                    <span className="text-pink-700 font-medium text-lg">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 h-14 w-14 rounded-full bg-pink-100 flex items-center justify-center">
+                    <span className="text-pink-700 font-semibold text-xl">
                       {alumna.nombre.charAt(0).toUpperCase()}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-base font-medium text-gray-900 break-words">
+                    <div className="text-lg font-semibold text-gray-900 break-words mb-1">
                       {alumna.nombre}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 mb-2">
                       ID: {alumna.id}
                     </div>
-                  </div>
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full flex-shrink-0 ${
-                      alumna.activo
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}
-                  >
-                    {alumna.activo ? 'Activa' : 'Inactiva'}
-                  </span>
-                </div>
-                
-                {/* Contacto */}
-                <div className="space-y-2 border-t border-gray-100 pt-3">
-                  <div className="flex items-start gap-2">
-                    <Mail size={16} className="text-gray-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-900 break-all">{alumna.email}</span>
-                  </div>
-                  {alumna.telefono && (
-                    <div className="flex items-center gap-2">
-                      <Phone size={16} className="text-gray-400 flex-shrink-0" />
-                      <span className="text-sm text-gray-600">{alumna.telefono}</span>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <Calendar size={16} className="text-gray-400 flex-shrink-0" />
-                    <span className="text-sm text-gray-600">
-                      {format(parseISO(alumna.fecha_registro), "dd 'de' MMMM, yyyy", { locale: es })}
+                    <span
+                      className={`inline-block px-2.5 py-1 text-xs font-semibold rounded-full ${
+                        alumna.activo
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {alumna.activo ? 'Activa' : 'Inactiva'}
                     </span>
                   </div>
                 </div>
                 
-                {/* Acciones */}
-                <div className="flex gap-2 pt-2 border-t border-gray-100">
+                {/* Información de Contacto - Mejorada */}
+                <div className="space-y-2.5 border-t border-gray-200 pt-3">
+                  <div className="flex items-start gap-2.5">
+                    <Mail size={18} className="text-gray-400 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs text-gray-500 mb-0.5">Email</div>
+                      <span className="text-sm text-gray-900 break-all">{alumna.email}</span>
+                    </div>
+                  </div>
+                  {alumna.telefono && (
+                    <div className="flex items-start gap-2.5">
+                      <Phone size={18} className="text-gray-400 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-gray-500 mb-0.5">Teléfono</div>
+                        <span className="text-sm text-gray-900">{alumna.telefono}</span>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-start gap-2.5">
+                    <Calendar size={18} className="text-gray-400 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs text-gray-500 mb-0.5">Fecha de Registro</div>
+                      <span className="text-sm text-gray-900">
+                        {format(parseISO(alumna.fecha_registro), "dd 'de' MMMM, yyyy", { locale: es })}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Acciones - Botones más pequeños */}
+                <div className="flex gap-2 pt-2 border-t border-gray-200">
                   <button
                     onClick={() => abrirModalPago(alumna)}
-                    className="flex-1 px-3 py-2 text-sm text-pink-600 hover:text-pink-900 hover:bg-pink-50 rounded-lg transition-colors flex items-center justify-center gap-1 border border-pink-200"
+                    className="flex-1 px-3 py-2 text-xs font-medium text-pink-600 hover:text-pink-900 hover:bg-pink-50 rounded-lg transition-colors flex items-center justify-center gap-1.5 border border-pink-200"
                   >
-                    <DollarSign size={16} />
+                    <DollarSign size={14} />
                     Pago
                   </button>
                   <button
                     onClick={() => abrirModalDetalle(alumna.id)}
-                    className="flex-1 px-3 py-2 text-sm text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-1 border border-blue-200"
+                    className="flex-1 px-3 py-2 text-xs font-medium text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-1.5 border border-blue-200"
                   >
-                    <Eye size={16} />
+                    <Eye size={14} />
                     Ver Detalles
                   </button>
                 </div>
