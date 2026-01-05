@@ -248,10 +248,10 @@ export default function Layout({ children }) {
                   </div>
                 </Link>
                 
-                {/* Botón cerrar - Estilo dorado */}
+                {/* Botón cerrar - Estilo rosa */}
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="p-2 text-amber-600 hover:text-amber-700 hover:bg-amber-50 rounded-full transition-all"
+                  className="p-2 text-pink-600 hover:text-pink-700 hover:bg-pink-50 rounded-full transition-all"
                   aria-label="Cerrar menú"
                   type="button"
                 >
@@ -267,8 +267,8 @@ export default function Layout({ children }) {
                 onClick={() => setMenuOpen(false)}
                 className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                   isActive('/')
-                    ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                    ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                    : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                 }`}
               >
                 Inicio
@@ -279,8 +279,8 @@ export default function Layout({ children }) {
                 onClick={() => setMenuOpen(false)}
                 className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                   isActive('/panel')
-                    ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                    ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                    : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                 }`}
               >
                 Panel de Control
@@ -293,8 +293,8 @@ export default function Layout({ children }) {
                     onClick={() => setMenuOpen(false)}
                     className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/reservaciones')
-                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                        ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                     }`}
                   >
                     Reservar
@@ -304,8 +304,8 @@ export default function Layout({ children }) {
                     onClick={() => setMenuOpen(false)}
                     className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/mis-reservaciones')
-                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                        ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                     }`}
                   >
                     Mis Reservaciones
@@ -315,8 +315,8 @@ export default function Layout({ children }) {
                     onClick={() => setMenuOpen(false)}
                     className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/pagos')
-                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                        ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                     }`}
                   >
                     Pagos
@@ -331,8 +331,8 @@ export default function Layout({ children }) {
                     onClick={() => setMenuOpen(false)}
                     className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/admin/reservaciones')
-                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                        ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                     }`}
                   >
                     Asistencia
@@ -342,8 +342,8 @@ export default function Layout({ children }) {
                     onClick={() => setMenuOpen(false)}
                     className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/admin/alumnas')
-                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                        ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                     }`}
                   >
                     Alumnas
@@ -353,8 +353,8 @@ export default function Layout({ children }) {
                     onClick={() => setMenuOpen(false)}
                     className={`px-6 py-4 text-lg font-medium transition-all duration-200 ${
                       isActive('/admin/pagos')
-                        ? 'text-amber-600 bg-amber-50 border-l-4 border-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600'
+                        ? 'text-pink-600 bg-pink-50/70 border-l-4 border-pink-600'
+                        : 'text-gray-700 hover:bg-pink-50/50 hover:text-pink-600'
                     }`}
                   >
                     Gestión Pagos

@@ -300,9 +300,9 @@ export default function AdminAlumnas() {
         </div>
         <button
           onClick={abrirModalRegistroRapido}
-          className="px-3 py-1.5 sm:px-4 sm:py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm flex items-center gap-2 w-full sm:w-auto justify-center"
+          className="px-4 py-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold text-xs sm:text-sm flex items-center gap-2 w-full sm:w-auto justify-center transform hover:scale-105 active:scale-95"
         >
-          <Users size={14} className="sm:w-4 sm:h-4" />
+          <Users size={16} className="sm:w-5 sm:h-5" />
           <span className="whitespace-nowrap">Registrar Alumna</span>
         </button>
       </div>
