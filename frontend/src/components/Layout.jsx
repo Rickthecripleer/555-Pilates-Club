@@ -101,13 +101,15 @@ export default function Layout({ children }) {
               </button>
             </div>
 
-            {/* Botón Salir - Solo móvil (en header) */}
+            {/* Botón Salir - Solo móvil (en header) - Más llamativo */}
             <button
               onClick={handleLogout}
-              className="sm:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="sm:hidden px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-all flex items-center gap-2 font-medium"
               aria-label="Salir"
+              type="button"
             >
-              <LogOut size={20} />
+              <LogOut size={18} />
+              <span className="text-sm">Salir</span>
             </button>
           </div>
         </div>
@@ -368,11 +370,12 @@ export default function Layout({ children }) {
                 </>
               )}
               
-              {/* Botón Salir en el menú móvil */}
+              {/* Botón Salir en el menú móvil - Más llamativo */}
               <div className="border-t border-gray-200 mt-auto pt-2">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 px-4 py-3 text-base font-medium text-red-600 hover:bg-red-50 w-full transition-colors"
+                  className="flex items-center justify-center gap-3 px-4 py-3 text-base font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg mx-4 mb-2 transition-all shadow-md"
+                  type="button"
                 >
                   <LogOut size={20} />
                   <span>Salir</span>

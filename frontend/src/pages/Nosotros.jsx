@@ -152,10 +152,16 @@ export default function Nosotros() {
         });
         
         // Forzar actualización de imágenes cambiando el version
-        setImageVersion(Date.now());
+        const newVersion = Date.now();
+        setImageVersion(newVersion);
         
         // Recargar contenido completo para asegurar sincronización
         await cargarContenido();
+        
+        // Forzar otro cambio de version después de cargar para asegurar refresh
+        setTimeout(() => {
+          setImageVersion(Date.now());
+        }, 100);
         
         alert('Imagen actualizada correctamente');
       } else {
@@ -222,12 +228,17 @@ export default function Nosotros() {
                   className="hidden"
                   id="file-input-hero"
                 />
-                <div className="absolute top-4 right-4 z-20">
+                <div className="absolute top-4 right-4 z-50" style={{ zIndex: 9999 }}>
                   <button
-                    onClick={() => handleEditarImagen('hero', 'imagen', fileInputHeroRef)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleEditarImagen('hero', 'imagen', fileInputHeroRef);
+                    }}
                     disabled={uploading}
-                    className="bg-white/95 hover:bg-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-pink-600 border border-pink-200 transition-all disabled:opacity-50"
+                    className="bg-white hover:bg-pink-50 px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-pink-600 border-2 border-pink-300 transition-all disabled:opacity-50"
                     title="Editar imagen"
+                    type="button"
                   >
                     <Edit2 size={16} />
                     <span>{uploading ? 'Subiendo...' : 'Editar Imagen'}</span>
@@ -325,12 +336,17 @@ export default function Nosotros() {
                       className="hidden"
                       id="file-input-introduccion"
                     />
-                    <div className="absolute top-2 right-2 z-20">
+                    <div className="absolute top-2 right-2 z-50" style={{ zIndex: 9999 }}>
                       <button
-                        onClick={() => handleEditarImagen('introduccion', 'imagen', fileInputIntroduccionRef)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleEditarImagen('introduccion', 'imagen', fileInputIntroduccionRef);
+                        }}
                         disabled={uploading}
-                        className="bg-white/95 hover:bg-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-pink-600 border border-pink-200 transition-all disabled:opacity-50"
+                        className="bg-white hover:bg-pink-50 px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-pink-600 border-2 border-pink-300 transition-all disabled:opacity-50"
                         title="Editar imagen"
+                        type="button"
                       >
                         <Edit2 size={16} />
                         <span>{uploading ? 'Subiendo...' : 'Editar'}</span>
