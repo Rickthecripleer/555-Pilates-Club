@@ -26,13 +26,21 @@ export default function Layout({ children }) {
   // Cerrar menú al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // No cerrar si el clic es en el botón del menú
+      if (event.target.closest('button[aria-label="Toggle menu"]')) {
+        return;
+      }
       if (menuOpen && !event.target.closest('.mobile-menu-container')) {
         setMenuOpen(false);
       }
     };
 
     if (menuOpen) {
-      document.addEventListener('click', handleClickOutside);
+      // Usar setTimeout para evitar que el evento se dispare inmediatamente
+      setTimeout(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside);
+      }, 0);
       // Prevenir scroll del body cuando el menú está abierto
       document.body.style.overflow = 'hidden';
     } else {
@@ -40,7 +48,8 @@ export default function Layout({ children }) {
     }
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
       document.body.style.overflow = '';
     };
   }, [menuOpen]);
@@ -57,9 +66,14 @@ export default function Layout({ children }) {
             <div className="flex items-center gap-3 flex-1">
               {/* Botón Menú Hamburguesa - Solo móvil */}
               <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="sm:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setMenuOpen(!menuOpen);
+                }}
+                className="sm:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors z-50 relative"
                 aria-label="Toggle menu"
+                type="button"
               >
                 {menuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -212,11 +226,23 @@ export default function Layout({ children }) {
           {/* Overlay oscuro */}
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
-            onClick={() => setMenuOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setMenuOpen(false);
+            }}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setMenuOpen(false);
+            }}
           />
           
           {/* Menú desplegable */}
-          <div className="mobile-menu-container fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 sm:hidden overflow-y-auto">
+          <div 
+            className="mobile-menu-container fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 sm:hidden overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="p-4 border-b border-pink-100">
               <div className="flex items-center justify-between mb-4">
                 <div>
