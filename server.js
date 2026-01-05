@@ -31,8 +31,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos (comprobantes)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Servir archivos estáticos (comprobantes) - DEBE IR ANTES de las rutas de API
+// Esto asegura que los archivos estáticos se sirvan correctamente
+const uploadsPath = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsPath, {
+    setHeaders: (res, filePath) => {
+        // Permitir CORS para archivos estáticos
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET');
+    }
+}));
 
 // Ruta de salud
 app.get('/health', async (req, res) => {
@@ -54,12 +62,29 @@ app.use('/api/horarios-fijos', horarioFijoRoutes);
 app.use('/api/cambios-horario', cambioHorarioRoutes);
 app.use('/api/contenido', contenidoRoutes);
 
-// Manejo de errores 404
-app.use((req, res) => {
+// Manejo de errores 404 - Solo para rutas de API
+// Las rutas /uploads ya están manejadas por express.static arriba
+app.use('/api/*', (req, res) => {
     res.status(404).json({
         success: false,
         message: 'Endpoint no encontrado'
     });
+});
+
+// Para rutas no-API que no sean archivos estáticos
+app.use((req, res, next) => {
+    // Si es una ruta /uploads, dejar que express.static la maneje
+    if (req.path.startsWith('/uploads')) {
+        return next();
+    }
+    // Para otras rutas no-API, devolver 404
+    if (!req.path.startsWith('/api')) {
+        return res.status(404).json({
+            success: false,
+            message: 'Endpoint no encontrado'
+        });
+    }
+    next();
 });
 
 // Manejo de errores global

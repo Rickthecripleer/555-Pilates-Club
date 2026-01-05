@@ -7,27 +7,7 @@ import { Upload, CreditCard, CheckCircle, Clock, XCircle, FileImage, X, MessageC
 import DatosBancarios from '../components/DatosBancarios';
 import { WHATSAPP_NUMBER } from '../config/whatsapp';
 import { COSTO_INSCRIPCION } from '../config/constants';
-
-// Función helper para obtener la URL base del backend
-const getBackendUrl = () => {
-  if (import.meta.env.VITE_API_URL) {
-    const apiUrl = import.meta.env.VITE_API_URL;
-    // Si es una URL completa, extraer el dominio
-    if (apiUrl.startsWith('http')) {
-      try {
-        const url = new URL(apiUrl);
-        return `${url.protocol}//${url.host}`;
-      } catch (e) {
-        return apiUrl.replace('/api', '');
-      }
-    }
-    return apiUrl.replace('/api', '');
-  }
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:3000';
-  }
-  return `http://${window.location.hostname}:3000`;
-};
+import { getBackendUrl } from '../utils/backendUrl';
 
 // Configuración de planes
 const PLANES = [
@@ -698,6 +678,15 @@ Ya subi el comprobante en el sistema. Por favor, validalo cuando tengas oportuni
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm text-slate-600 hover:text-slate-800 mt-2 inline-flex items-center gap-1 underline"
+                          onClick={(e) => {
+                            const url = `${getBackendUrl()}${pago.comprobante_url}`;
+                            console.log('Intentando abrir comprobante:', url);
+                            // Si el enlace falla, intentar abrir en la misma ventana
+                            if (!url.startsWith('http')) {
+                              e.preventDefault();
+                              alert('Error: URL del comprobante no válida. Por favor, contacta al administrador.');
+                            }
+                          }}
                         >
                           <FileImage size={14} />
                           Ver comprobante

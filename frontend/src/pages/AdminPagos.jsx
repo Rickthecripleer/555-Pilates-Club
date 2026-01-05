@@ -3,27 +3,7 @@ import { pagosAPI } from '../services/api';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { CheckCircle, XCircle, Clock, User, DollarSign, Calendar, FileImage } from 'lucide-react';
-
-// Función helper para obtener la URL base del backend
-const getBackendUrl = () => {
-  if (import.meta.env.VITE_API_URL) {
-    const apiUrl = import.meta.env.VITE_API_URL;
-    // Si es una URL completa, extraer el dominio
-    if (apiUrl.startsWith('http')) {
-      try {
-        const url = new URL(apiUrl);
-        return `${url.protocol}//${url.host}`;
-      } catch (e) {
-        return apiUrl.replace('/api', '');
-      }
-    }
-    return apiUrl.replace('/api', '');
-  }
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:3000';
-  }
-  return `http://${window.location.hostname}:3000`;
-};
+import { getBackendUrl } from '../utils/backendUrl';
 
 // Función para obtener el nombre descriptivo del plan
 const getNombrePlan = (tipoPlan) => {
@@ -212,6 +192,15 @@ export default function AdminPagos() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 font-medium transition-colors"
+                          onClick={(e) => {
+                            const url = `${getBackendUrl()}${pago.comprobante_url}`;
+                            console.log('Intentando abrir comprobante:', url);
+                            // Si el enlace falla, intentar abrir en la misma ventana
+                            if (!url.startsWith('http')) {
+                              e.preventDefault();
+                              alert('Error: URL del comprobante no válida. Por favor, contacta al administrador.');
+                            }
+                          }}
                         >
                           <FileImage size={18} />
                           Ver comprobante

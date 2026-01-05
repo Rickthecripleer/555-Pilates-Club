@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { contenidoAPI } from '../services/api';
 import EditableText from '../components/EditableText';
+import { getBackendUrl } from '../utils/backendUrl';
 
 export default function Nosotros() {
   const { isAdmin } = useAuth();
@@ -57,27 +58,6 @@ export default function Nosotros() {
       console.error('Error en handleGuardar:', error);
       throw error;
     }
-  };
-
-  // Función helper para obtener la URL base del backend
-  const getBackendUrl = () => {
-    if (import.meta.env.VITE_API_URL) {
-      const apiUrl = import.meta.env.VITE_API_URL;
-      // Si es una URL completa, extraer el dominio
-      if (apiUrl.startsWith('http')) {
-        try {
-          const url = new URL(apiUrl);
-          return `${url.protocol}//${url.host}`;
-        } catch (e) {
-          return apiUrl.replace('/api', '');
-        }
-      }
-      return apiUrl.replace('/api', '');
-    }
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      return 'http://localhost:3000';
-    }
-    return `http://${window.location.hostname}:3000`;
   };
 
   // Función helper para obtener contenido con fallback
