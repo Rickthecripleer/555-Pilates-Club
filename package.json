@@ -7,7 +7,9 @@
     "start": "node server.js",
     "dev": "npx nodemon server.js",
     "setup:contenido": "node scripts/verificar_contenido_nosotros.js",
-    "reset:db": "node scripts/reset_database.js"
+    "reset:db": "node scripts/reset_database.js",
+    "setup:aiven": "node scripts/setup_aiven_database.js",
+    "create:admin": "node scripts/create_admin_user.js"
   },
   "keywords": [
     "pilates",

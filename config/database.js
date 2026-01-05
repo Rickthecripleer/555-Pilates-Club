@@ -7,16 +7,19 @@ const dbConfig = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'academia_pilates',
-    port: process.env.DB_PORT || 3306,
+    port: parseInt(process.env.DB_PORT) || 3306, // Asegurar que sea número
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    charset: 'utf8mb4',
-    // SSL requerido para Aiven MySQL
-    ssl: {
-        rejectUnauthorized: false
-    }
+    charset: 'utf8mb4'
 };
+
+// SSL solo para Aiven (Railway puede no requerirlo)
+if (process.env.DB_HOST && process.env.DB_HOST.includes('aivencloud')) {
+    dbConfig.ssl = {
+        rejectUnauthorized: false
+    };
+}
 
 // Crear pool de conexiones
 const pool = mysql.createPool(dbConfig);
