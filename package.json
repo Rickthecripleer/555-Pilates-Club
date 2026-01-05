@@ -9,7 +9,8 @@
     "setup:contenido": "node scripts/verificar_contenido_nosotros.js",
     "reset:db": "node scripts/reset_database.js",
     "setup:aiven": "node scripts/setup_aiven_database.js",
-    "create:admin": "node scripts/create_admin_user.js"
+    "create:admin": "node scripts/create_admin_user.js",
+    "fix:columns": "node scripts/add_missing_columns.js"
   },
   "keywords": [
     "pilates",
