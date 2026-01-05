@@ -23,24 +23,30 @@
   }
   
   html {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     width: 100%;
+    position: relative;
+    touch-action: pan-y; /* Solo permite scroll vertical en móviles */
   }
   
   body {
     @apply bg-rose-light text-gray-900;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     width: 100%;
     max-width: 100vw;
+    position: relative;
+    touch-action: pan-y; /* Solo permite scroll vertical en móviles */
+    overscroll-behavior-x: none; /* Previene scroll horizontal al hacer swipe */
   }
   
   #root {
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     margin: 0 auto;
+    position: relative;
   }
 }
 
@@ -85,13 +91,42 @@
   max-width: 100%;
 }
 
+/* Prevenir scroll horizontal en todos los elementos */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Asegurar que ningún elemento cause overflow */
+div, section, article, main, header, footer, nav, aside {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 img, video, iframe {
   max-width: 100%;
   height: auto;
 }
 
+/* Prevenir que elementos flex causen overflow */
+.flex, .flex-row, .flex-col {
+  min-width: 0;
+  max-width: 100%;
+}
+
 /* Mejoras de responsividad para móviles (iPhone) */
 @media (max-width: 640px) {
+  /* Prevenir scroll horizontal completamente */
+  html, body {
+    overflow-x: hidden !important;
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    touch-action: pan-y;
+    overscroll-behavior-x: none;
+  }
+  
   /* Asegurar que los contenedores estén centrados */
   .container {
     margin-left: auto;
@@ -99,7 +134,8 @@ img, video, iframe {
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    position: relative;
   }
   
   /* Mejorar centrado de texto en móviles */
@@ -111,6 +147,8 @@ img, video, iframe {
   .flex {
     display: flex;
     flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
   }
   
   .items-center {
@@ -124,6 +162,8 @@ img, video, iframe {
   /* Prevenir overflow en elementos flex */
   .flex-row {
     flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
   }
   
   /* Mejorar padding en móviles */
@@ -134,8 +174,15 @@ img, video, iframe {
   
   /* Asegurar que las tarjetas no se desborden */
   .card {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative;
+  }
+  
+  /* Prevenir que cualquier elemento cause scroll horizontal */
+  * {
     max-width: 100%;
-    overflow-x: hidden;
+    min-width: 0;
   }
 }
 
