@@ -67,14 +67,19 @@ CREATE TABLE IF NOT EXISTS reservaciones (
     horario_id INT NOT NULL,
     fecha_reserva DATE NOT NULL,
     estatus ENUM('confirmada', 'cancelada', 'completada', 'no_asistio') NOT NULL DEFAULT 'confirmada',
+    es_automatica BOOLEAN DEFAULT FALSE,
+    horario_fijo_id INT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_actualizacion DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (alumna_id) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (horario_id) REFERENCES horarios(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (horario_fijo_id) REFERENCES alumna_horarios_fijos(id) ON DELETE SET NULL ON UPDATE CASCADE,
     INDEX idx_alumna_id (alumna_id),
     INDEX idx_horario_id (horario_id),
     INDEX idx_fecha_reserva (fecha_reserva),
     INDEX idx_estatus (estatus),
+    INDEX idx_es_automatica (es_automatica),
+    INDEX idx_horario_fijo_id (horario_fijo_id),
     UNIQUE KEY unique_reservacion (alumna_id, horario_id, fecha_reserva)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
