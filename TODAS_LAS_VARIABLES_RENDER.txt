@@ -1,0 +1,97 @@
+===========================================
+VARIABLES DE ENTORNO PARA RENDER
+===========================================
+
+Copia y pega estas variables en Render → Environment → Add Variable
+
+===========================================
+1. BASE DE DATOS (RAILWAY MYSQL) - OBLIGATORIAS
+===========================================
+
+DB_HOST
+switchyard.proxy.rlwy.net
+
+DB_PORT
+55856
+
+DB_USER
+root
+
+DB_PASSWORD
+zWWBeaXeMuCmnzaLHaebZluRRnjBccRv
+
+DB_NAME
+railway
+
+===========================================
+2. AUTENTICACIÓN - OBLIGATORIA
+===========================================
+
+JWT_SECRET
+PilatesClub2024SecretKey!@#$%^&*()_+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+===========================================
+3. ENTORNO - RECOMENDADA
+===========================================
+
+NODE_ENV
+production
+
+===========================================
+4. CORS (URLs PERMITIDAS) - RECOMENDADA
+===========================================
+
+ALLOWED_ORIGINS
+https://tu-frontend.onrender.com,http://localhost:5173
+
+NOTA: Reemplaza "https://tu-frontend.onrender.com" con la URL real de tu frontend en Render
+
+===========================================
+5. CARPETAS DE UPLOAD - RECOMENDADAS
+===========================================
+
+UPLOAD_DIR
+./uploads/comprobantes
+
+UPLOAD_DIR_CONTENIDO
+./uploads/contenido
+
+MAX_FILE_SIZE
+5242880
+
+===========================================
+RESUMEN: 11 VARIABLES EN TOTAL
+===========================================
+
+OBLIGATORIAS (6):
+- DB_HOST
+- DB_PORT
+- DB_USER
+- DB_PASSWORD
+- DB_NAME
+- JWT_SECRET
+
+RECOMENDADAS (5):
+- NODE_ENV
+- ALLOWED_ORIGINS
+- UPLOAD_DIR
+- UPLOAD_DIR_CONTENIDO
+- MAX_FILE_SIZE
+
+===========================================
+INSTRUCCIONES:
+===========================================
+
+1. Ve a Render → Tu servicio → "Environment"
+2. Haz click en "Edit" (arriba a la derecha)
+3. Para cada variable:
+   - Click en "Add Environment Variable" o "+"
+   - Nombre: (copia el nombre de arriba)
+   - Valor: (copia el valor de arriba)
+   - Guarda
+4. Repite para todas las 11 variables
+5. Guarda todos los cambios
+6. Render se reiniciará automáticamente
+
+===========================================
+

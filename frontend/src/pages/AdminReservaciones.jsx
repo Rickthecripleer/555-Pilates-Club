@@ -88,7 +88,7 @@ export default function AdminReservaciones() {
   );
 
   return (
-    <div className="space-y-6 w-full">
+    <div className="space-y-6 w-full max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
         <div className="w-full sm:w-auto text-center sm:text-left">

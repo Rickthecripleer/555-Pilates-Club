@@ -130,12 +130,12 @@ export default function Dashboard() {
   const nombrePlan = proximoVencimiento ? obtenerNombrePlan(proximoVencimiento.tipo_plan, proximoVencimiento.monto) : null;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+    <div className="space-y-6 w-full max-w-full overflow-x-hidden">
+      <div className="w-full">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center sm:text-left">
           ¡Hola, {user?.nombre}!
         </h1>
-        <p className="text-gray-600">Bienvenida a tu panel de control</p>
+        <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left">Bienvenida a tu panel de control</p>
       </div>
 
       {/* Tarjetas de Estado */}

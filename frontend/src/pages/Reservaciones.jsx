@@ -135,10 +135,10 @@ export default function Reservaciones() {
   const clasesLista = Object.values(clasesAgrupadas);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Reservar Clase</h1>
-        <p className="text-gray-600">Selecciona una fecha y horario disponible</p>
+    <div className="space-y-6 w-full max-w-full overflow-x-hidden">
+      <div className="w-full">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center sm:text-left">Reservar Clase</h1>
+        <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left">Selecciona una fecha y horario disponible</p>
       </div>
 
       {/* Mensajes */}
@@ -170,22 +170,22 @@ export default function Reservaciones() {
       )}
 
       {/* Selector de Fecha */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold flex items-center gap-2">
-            <Calendar className="text-pink-600" size={20} />
-            Seleccionar Fecha
+      <div className="card w-full max-w-full overflow-x-hidden">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3 sm:gap-0">
+          <h2 className="text-base sm:text-lg font-bold flex items-center gap-2 w-full sm:w-auto">
+            <Calendar className="text-pink-600" size={18} />
+            <span>Seleccionar Fecha</span>
           </h2>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto justify-center sm:justify-end">
             <button
               onClick={() => cambiarSemana(-1)}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-xs sm:text-sm px-3 sm:px-4"
             >
               ← Semana anterior
             </button>
             <button
               onClick={() => cambiarSemana(1)}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-xs sm:text-sm px-3 sm:px-4"
             >
               Semana siguiente →
             </button>
@@ -193,7 +193,7 @@ export default function Reservaciones() {
         </div>
 
         {/* Calendario Semanal */}
-        <div className="grid grid-cols-7 gap-2 mb-4">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-4 w-full max-w-full overflow-x-hidden">
           {fechasSemana.map((fecha, index) => {
             const esHoy = format(fecha, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
             const esSeleccionada =
@@ -206,7 +206,7 @@ export default function Reservaciones() {
                 key={index}
                 onClick={() => !esFinDeSemana && seleccionarFecha(fecha)}
                 disabled={esFinDeSemana}
-                className={`p-3 rounded-lg text-center transition-all ${
+                className={`p-2 sm:p-3 rounded-lg text-center transition-all w-full min-w-0 ${
                   esSeleccionada
                     ? 'bg-pink-600 text-white'
                     : esHoy && !esFinDeSemana
@@ -217,22 +217,22 @@ export default function Reservaciones() {
                 }`}
                 title={esFinDeSemana ? 'No hay clases los fines de semana' : ''}
               >
-                <p className="text-xs font-medium mb-1">
+                <p className="text-[10px] sm:text-xs font-medium mb-1">
                   {diasSemanaCorto[fecha.getDay() === 0 ? 6 : fecha.getDay() - 1]}
                 </p>
-                <p className="text-lg font-bold">{format(fecha, 'd')}</p>
+                <p className="text-sm sm:text-lg font-bold">{format(fecha, 'd')}</p>
               </button>
             );
           })}
         </div>
 
-        <p className="text-sm text-gray-600 text-center">
+        <p className="text-xs sm:text-sm text-gray-600 text-center break-words">
           {format(fechaSeleccionada, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
         </p>
       </div>
 
       {/* Lista de Clases Disponibles */}
-      <div className="card">
+      <div className="card w-full max-w-full overflow-x-hidden">
         <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
           <Clock className="text-pink-600" size={20} />
           Clases Disponibles
@@ -256,25 +256,25 @@ export default function Reservaciones() {
             {clasesLista.map((clase) => (
               <div
                 key={clase.horario_id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow w-full max-w-full overflow-x-hidden"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+                  <div className="flex-1 min-w-0 w-full">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1 break-words">
                       {clase.nombre_clase}
                     </h3>
                     {clase.descripcion && (
-                      <p className="text-sm text-gray-600 mb-2">{clase.descripcion}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 mb-2 break-words">{clase.descripcion}</p>
                     )}
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                    <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                       <div className="flex items-center gap-1">
-                        <Clock size={16} />
+                        <Clock size={14} className="flex-shrink-0" />
                         <span className="font-medium">
                           {formatearHora(clase.hora_inicio)} - {formatearHora(clase.hora_fin)}
                         </span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Users size={16} />
+                        <Users size={14} className="flex-shrink-0" />
                         <span>
                           {clase.lugares_disponibles} de {clase.capacidad_maxima} lugares
                         </span>
@@ -285,7 +285,7 @@ export default function Reservaciones() {
                   <button
                     onClick={() => handleReservar(clase.horario_id)}
                     disabled={!acceso?.tieneAcceso || creando || clase.lugares_disponibles === 0}
-                    className="btn-primary whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn-primary whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto flex-shrink-0 text-xs sm:text-sm px-3 sm:px-4"
                   >
                     {creando ? 'Reservando...' : 'Reservar'}
                   </button>

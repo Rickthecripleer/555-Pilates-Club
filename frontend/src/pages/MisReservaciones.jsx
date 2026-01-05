@@ -126,10 +126,10 @@ export default function MisReservaciones() {
   });
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Mis Reservaciones</h1>
-        <p className="text-gray-600">Gestiona tus reservaciones y cambios de horario</p>
+    <div className="space-y-6 w-full max-w-full overflow-x-hidden">
+      <div className="w-full">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center sm:text-left">Mis Reservaciones</h1>
+        <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left">Gestiona tus reservaciones y cambios de horario</p>
       </div>
 
       {/* Mensajes */}
@@ -174,10 +174,10 @@ export default function MisReservaciones() {
       )}
 
       {/* Filtros */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2 justify-center sm:justify-start w-full">
         <button
           onClick={() => setFiltroEstatus('todas')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
             filtroEstatus === 'todas'
               ? 'bg-pink-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -187,7 +187,7 @@ export default function MisReservaciones() {
         </button>
         <button
           onClick={() => setFiltroEstatus('confirmada')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
             filtroEstatus === 'confirmada'
               ? 'bg-pink-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -197,7 +197,7 @@ export default function MisReservaciones() {
         </button>
         <button
           onClick={() => setFiltroEstatus('cancelada')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
             filtroEstatus === 'cancelada'
               ? 'bg-pink-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -207,7 +207,7 @@ export default function MisReservaciones() {
         </button>
         <button
           onClick={() => setFiltroEstatus('completada')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
             filtroEstatus === 'completada'
               ? 'bg-pink-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -242,13 +242,13 @@ export default function MisReservaciones() {
                   return (
                     <div
                       key={res.id}
-                      className="card border-l-4 border-l-pink-500"
+                      className="card border-l-4 border-l-pink-500 w-full max-w-full overflow-x-hidden"
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h3 className="text-lg font-bold text-gray-900">{res.nombre_clase}</h3>
-                            <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+                        <div className="flex-1 min-w-0 w-full sm:w-auto">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <h3 className="text-base sm:text-lg font-bold text-gray-900 break-words">{res.nombre_clase}</h3>
+                            <span className={`px-2 py-0.5 text-xs font-medium rounded-full flex-shrink-0 ${
                               res.estatus === 'confirmada'
                                 ? 'bg-green-100 text-green-800'
                                 : res.estatus === 'completada'
@@ -258,16 +258,16 @@ export default function MisReservaciones() {
                               {res.estatus}
                             </span>
                           </div>
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                            <div className="flex items-center gap-1">
-                              <Calendar size={16} />
-                              <span className="font-medium">
+                          <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                            <div className="flex items-center gap-1 min-w-0">
+                              <Calendar size={14} className="flex-shrink-0" />
+                              <span className="font-medium break-words">
                                 {format(fecha, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
                                 {esHoy && <span className="ml-2 text-pink-600 font-bold">(Hoy)</span>}
                               </span>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Clock size={16} />
+                            <div className="flex items-center gap-1 flex-shrink-0">
+                              <Clock size={14} />
                               <span>
                                 {formatearHora(res.hora_inicio)} - {formatearHora(res.hora_fin)}
                               </span>
@@ -278,17 +278,17 @@ export default function MisReservaciones() {
                           <button
                             onClick={() => handleCancelar(res.id)}
                             disabled={cancelando === res.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full sm:w-auto flex-shrink-0"
                           >
                             {cancelando === res.id ? (
                               <>
                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-700"></div>
-                                Cancelando...
+                                <span className="text-xs sm:text-sm">Cancelando...</span>
                               </>
                             ) : (
                               <>
-                                <X size={18} />
-                                Cancelar
+                                <X size={16} />
+                                <span className="text-xs sm:text-sm">Cancelar</span>
                               </>
                             )}
                           </button>
@@ -311,13 +311,13 @@ export default function MisReservaciones() {
                   return (
                     <div
                       key={res.id}
-                      className="card border-l-4 border-l-gray-300 opacity-75"
+                      className="card border-l-4 border-l-gray-300 opacity-75 w-full max-w-full overflow-x-hidden"
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h3 className="text-lg font-bold text-gray-700">{res.nombre_clase}</h3>
-                            <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+                        <div className="flex-1 min-w-0 w-full">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <h3 className="text-base sm:text-lg font-bold text-gray-700 break-words">{res.nombre_clase}</h3>
+                            <span className={`px-2 py-0.5 text-xs font-medium rounded-full flex-shrink-0 ${
                               res.estatus === 'completada'
                                 ? 'bg-blue-100 text-blue-800'
                                 : res.estatus === 'cancelada'
@@ -327,15 +327,15 @@ export default function MisReservaciones() {
                               {res.estatus}
                             </span>
                           </div>
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                            <div className="flex items-center gap-1">
-                              <Calendar size={16} />
-                              <span>
+                          <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                            <div className="flex items-center gap-1 min-w-0">
+                              <Calendar size={14} className="flex-shrink-0" />
+                              <span className="break-words">
                                 {format(fecha, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
                               </span>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Clock size={16} />
+                            <div className="flex items-center gap-1 flex-shrink-0">
+                              <Clock size={14} />
                               <span>
                                 {formatearHora(res.hora_inicio)} - {formatearHora(res.hora_fin)}
                               </span>

@@ -1,0 +1,82 @@
+===========================================
+VARIABLES PARA RENDER - COPIA Y PEGA
+===========================================
+
+En Render → Environment → Agrega estas variables UNA POR UNA:
+
+===========================================
+1. DB_HOST
+===========================================
+switchyard.proxy.rlwy.net
+
+===========================================
+2. DB_PORT
+===========================================
+55856
+
+===========================================
+3. DB_USER
+===========================================
+root
+
+===========================================
+4. DB_PASSWORD
+===========================================
+zWWBeaXeMuCmnzaLHaebZluRRnjBccRv
+
+===========================================
+5. DB_NAME
+===========================================
+railway
+
+===========================================
+6. JWT_SECRET
+===========================================
+PilatesClub2024SecretKey!@#$%^&*()_+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+===========================================
+7. NODE_ENV
+===========================================
+production
+
+===========================================
+8. ALLOWED_ORIGINS
+===========================================
+https://tu-frontend.onrender.com,http://localhost:5173
+
+(Reemplaza "https://tu-frontend.onrender.com" con la URL real de tu frontend)
+
+===========================================
+9. UPLOAD_DIR
+===========================================
+./uploads/comprobantes
+
+===========================================
+10. UPLOAD_DIR_CONTENIDO
+===========================================
+./uploads/contenido
+
+===========================================
+11. MAX_FILE_SIZE
+===========================================
+5242880
+
+===========================================
+INSTRUCCIONES:
+===========================================
+
+1. En Render, haz click en "+ Add" (botón grande)
+2. KEY: DB_HOST
+   VALUE: switchyard.proxy.rlwy.net
+   Guarda
+
+3. Repite para cada variable:
+   - Click en "+ Add"
+   - KEY: (el nombre de arriba)
+   - VALUE: (el valor de arriba)
+   - Guarda
+
+4. Al final, haz click en "Save, rebuild, and deploy"
+
+===========================================
+
