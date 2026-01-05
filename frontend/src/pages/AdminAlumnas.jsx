@@ -74,6 +74,11 @@ export default function AdminAlumnas() {
   });
 
   const abrirModalPago = async (alumna) => {
+    // Cerrar otros modales primero
+    setMostrarModalDetalle(false);
+    setMostrarModalRegistroRapido(false);
+    setMostrarModalReservacion(false);
+    
     setAlumnaSeleccionada(alumna);
     setFormPago({
       tipo_plan: 'mensual',
@@ -113,6 +118,11 @@ export default function AdminAlumnas() {
   };
 
   const abrirModalReservacion = () => {
+    // Cerrar otros modales primero
+    setMostrarModalPago(false);
+    setMostrarModalDetalle(false);
+    setMostrarModalRegistroRapido(false);
+    
     setMostrarModalReservacion(true);
     setMensaje({ tipo: '', texto: '' });
   };
@@ -254,6 +264,11 @@ export default function AdminAlumnas() {
   };
 
   const abrirModalDetalle = async (alumnaId) => {
+    // Cerrar otros modales primero
+    setMostrarModalPago(false);
+    setMostrarModalRegistroRapido(false);
+    setMostrarModalReservacion(false);
+    
     setCargandoDetalle(true);
     setMostrarModalDetalle(true);
     setMensaje({ tipo: '', texto: '' });
@@ -521,8 +536,8 @@ export default function AdminAlumnas() {
 
       {/* Modal para Registrar Pago en Efectivo */}
       {mostrarModalPago && alumnaSeleccionada && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] p-0 sm:p-4">
+          <div className="bg-white rounded-none sm:rounded-xl md:rounded-2xl shadow-xl max-w-2xl w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto">
             {/* Header del Modal */}
             <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-200">
               <div className="flex-1 min-w-0 pr-2">
@@ -743,8 +758,8 @@ export default function AdminAlumnas() {
 
       {/* Modal para Registro Rápido de Alumna */}
       {mostrarModalRegistroRapido && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] p-0 sm:p-4">
+          <div className="bg-white rounded-none sm:rounded-xl md:rounded-2xl shadow-xl max-w-2xl w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto">
             {/* Header del Modal */}
             <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-200">
               <div className="flex-1 min-w-0 pr-2">
@@ -975,8 +990,8 @@ export default function AdminAlumnas() {
 
       {/* Modal para Ver Detalle de Alumna */}
       {mostrarModalDetalle && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] p-0 sm:p-4">
+          <div className="bg-white rounded-none sm:rounded-xl md:rounded-2xl shadow-xl max-w-4xl w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto">
             {/* Header del Modal */}
             <div className="flex items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-200">
               <div className="flex-1 min-w-0 pr-2">
@@ -1295,8 +1310,8 @@ function ModalReservacion({ alumna, onClose }) {
   });
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] p-0 sm:p-4">
+      <div className="bg-white rounded-none sm:rounded-xl md:rounded-2xl shadow-xl max-w-4xl w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
