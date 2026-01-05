@@ -218,7 +218,7 @@ export default function Nosotros() {
         <div className="absolute inset-0">
           <div className="relative w-full h-full">
           <img
-              key={`hero-${imageVersion}-${obtenerContenido('hero', 'imagen', '/images/nosotros-hero.jpg')}`}
+              key={`hero-${imageVersion}-${contenido?.hero?.imagen?.contenido || 'default'}`}
               src={obtenerContenido('hero', 'imagen', '/images/nosotros-hero.jpg')}
             alt="Estudio de Pilates"
             className="w-full h-full object-cover"
