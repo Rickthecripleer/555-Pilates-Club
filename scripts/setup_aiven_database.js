@@ -44,31 +44,52 @@ async function setupDatabase() {
         const statements = sql
             .split(';')
             .map(s => s.trim())
-            .filter(s => s.length > 0 && !s.startsWith('--') && !s.startsWith('/*'));
+            .filter(s => {
+                // Filtrar solo comentarios y líneas vacías
+                if (s.length === 0) return false;
+                if (s.startsWith('--')) return false;
+                if (s.startsWith('/*')) return false;
+                // Mantener todas las sentencias SQL válidas (CREATE, INSERT, SELECT, etc.)
+                return true;
+            });
 
         console.log(`📝 Ejecutando ${statements.length} sentencias SQL...\n`);
 
+        let executed = 0;
+        let errors = 0;
+
         for (let i = 0; i < statements.length; i++) {
             const statement = statements[i];
-            // Saltar comentarios y líneas vacías
-            if (statement.length < 10 || statement.startsWith('SELECT') && statement.includes('AS mensaje')) {
+            
+            // Saltar solo si está completamente vacío después del trim
+            if (!statement || statement.length === 0) {
                 continue;
             }
             
             try {
                 await connection.query(statement + ';');
-                if ((i + 1) % 10 === 0) {
-                    process.stdout.write(`\r⏳ Progreso: ${i + 1}/${statements.length} sentencias ejecutadas...`);
+                executed++;
+                if (executed % 5 === 0) {
+                    process.stdout.write(`\r⏳ Progreso: ${executed} sentencias ejecutadas...`);
                 }
             } catch (error) {
                 // Ignorar errores de "table already exists" o "duplicate key"
-                if (!error.message.includes('already exists') && 
-                    !error.message.includes('Duplicate entry') &&
-                    !error.message.includes('Duplicate key')) {
+                if (error.message.includes('already exists') || 
+                    error.message.includes('Duplicate entry') ||
+                    error.message.includes('Duplicate key')) {
+                    // Ignorar silenciosamente
+                    executed++;
+                } else {
+                    errors++;
                     console.error(`\n❌ Error en sentencia ${i + 1}:`, error.message);
-                    console.error(`Sentencia: ${statement.substring(0, 100)}...`);
+                    console.error(`Sentencia: ${statement.substring(0, 150)}...`);
                 }
             }
+        }
+        
+        console.log(`\n\n✅ Ejecutadas: ${executed} sentencias`);
+        if (errors > 0) {
+            console.log(`⚠️  Errores: ${errors} sentencias`);
         }
 
         console.log('\n✅ Script ejecutado completamente!\n');
