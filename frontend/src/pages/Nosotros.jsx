@@ -62,7 +62,17 @@ export default function Nosotros() {
   // Función helper para obtener la URL base del backend
   const getBackendUrl = () => {
     if (import.meta.env.VITE_API_URL) {
-      return import.meta.env.VITE_API_URL.replace('/api', '');
+      const apiUrl = import.meta.env.VITE_API_URL;
+      // Si es una URL completa, extraer el dominio
+      if (apiUrl.startsWith('http')) {
+        try {
+          const url = new URL(apiUrl);
+          return `${url.protocol}//${url.host}`;
+        } catch (e) {
+          return apiUrl.replace('/api', '');
+        }
+      }
+      return apiUrl.replace('/api', '');
     }
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return 'http://localhost:3000';
@@ -142,10 +152,6 @@ export default function Nosotros() {
       if (response.success) {
         const newUrl = response.data.url;
         
-        // Forzar actualización de imágenes ANTES de actualizar el estado
-        const newVersion = Date.now();
-        setImageVersion(newVersion);
-        
         // Actualizar el estado local inmediatamente con la nueva URL
         setContenido(prev => {
           const nuevoEstado = { ...prev };
@@ -158,19 +164,22 @@ export default function Nosotros() {
           return nuevoEstado;
         });
         
+        // Forzar actualización de imágenes con timestamp único
+        const timestamp = Date.now();
+        setImageVersion(timestamp);
+        
         // Recargar contenido completo para asegurar sincronización
         await cargarContenido();
         
-        // Forzar múltiples actualizaciones de version para asegurar refresh completo
+        // Forzar refresh de la imagen después de un pequeño delay
+        setTimeout(() => {
+          setImageVersion(Date.now());
+        }, 200);
+        
+        // Forzar otro refresh después de que se haya cargado el contenido
         setTimeout(() => {
           setImageVersion(Date.now() + 1);
-        }, 50);
-        setTimeout(() => {
-          setImageVersion(Date.now() + 2);
-        }, 150);
-        setTimeout(() => {
-          setImageVersion(Date.now() + 3);
-        }, 300);
+        }, 500);
         
         alert('Imagen actualizada correctamente');
       } else {
@@ -317,14 +326,10 @@ export default function Nosotros() {
             <div className="order-2 md:order-1 relative">
                 <div className="relative w-full h-[300px] sm:h-[400px] md:h-[450px]">
                   <img
-                    key={`intro-img-${imageVersion}-${contenido?.introduccion?.imagen?.contenido || 'default'}-${Date.now()}`}
+                    key={`intro-img-${imageVersion}-${contenido?.introduccion?.imagen?.contenido || 'default'}`}
                     src={obtenerContenido('introduccion', 'imagen', '/images/nosotros-estudio.jpg')}
                 alt="Estudio de Pilates"
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
-                onLoad={() => {
-                  // Forzar refresh después de cargar
-                  setImageVersion(Date.now());
-                }}
                 onError={(e) => {
                   e.target.style.display = 'none';
                   if (e.target.nextElementSibling) {
