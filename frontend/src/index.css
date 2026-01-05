@@ -59,6 +59,61 @@
   display: none;
 }
 
+/* Mejoras de responsividad para móviles (iPhone) */
+@media (max-width: 640px) {
+  /* Asegurar que los contenedores estén centrados */
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Mejorar centrado de texto en móviles */
+  .text-center {
+    text-align: center !important;
+  }
+  
+  /* Asegurar que los elementos flex estén centrados en móvil */
+  .flex {
+    display: flex;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  /* Mejorar padding en móviles */
+  body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Ajustes específicos para iPhone */
+@supports (-webkit-touch-callout: none) {
+  /* Safari iOS específico */
+  @media (max-width: 428px) {
+    /* iPhone 14 Pro Max y similares */
+    .max-w-7xl {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  
+  @media (max-width: 390px) {
+    /* iPhone 12/13 Pro */
+    .max-w-7xl {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+}
+
 
 
 

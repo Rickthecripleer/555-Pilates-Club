@@ -88,10 +88,10 @@ export default function AdminReservaciones() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+        <div className="w-full sm:w-auto text-center sm:text-left">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Control de Asistencia
           </h1>
@@ -101,7 +101,7 @@ export default function AdminReservaciones() {
         </div>
 
         {/* Selector de Fecha */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center sm:justify-end gap-2 w-full sm:w-auto">
           <button
             onClick={() => cambiarDia(-1)}
             className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
@@ -138,7 +138,7 @@ export default function AdminReservaciones() {
       </div>
 
       {/* Resumen */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
         <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
           <div className="flex items-center gap-2 mb-2">
             <Users className="text-blue-600" size={20} />

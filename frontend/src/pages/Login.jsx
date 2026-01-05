@@ -28,8 +28,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-rose-light px-4 py-12">
-      <div className="max-w-md w-full relative">
+    <div className="min-h-screen flex items-center justify-center bg-rose-light px-4 py-12 w-full">
+      <div className="max-w-md w-full relative mx-auto">
         {/* Card Principal */}
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-10 border border-pink-100">
           {/* Logo */}
